@@ -1,0 +1,31 @@
+{
+  "editor.tabSize": 4,
+  "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: LLVM, UseTab: Never, IndentWidth: 4, TabWidth: 4, BreakBeforeBraces: Allman, AllowShortIfStatementsOnASingleLine: false, IndentCaseLabels: false, ColumnLimit: 0, AccessModifierOffset: -4, NamespaceIndentation: All, FixNamespaceComments: false, SpacesInConditionalStatement: true }",
+  "autoHeader": {
+    "format": {
+      "startWith": "/**",
+      "middleWith": "*",
+      "endWith": "*/",
+      "headerPrefix": "@"
+    },
+    "header": {
+      "Author": "Your Name",
+      "Create Time": {
+        "type": "createTime",
+        "format": "YYYY-MM-DD HH:mm:ss"
+      },
+      "Modified time": {
+        "type": "modifyTime",
+        "format": "YYYY-MM-DD HH:mm:ss"
+      },
+      "Description": ""
+    }
+  },
+  "files.associations": {
+    "*.jsrender": "html",
+    "ctime": "cpp",
+    "thread": "cpp",
+    "iostream": "cpp",
+    "ostream": "cpp"
+  }
+}
