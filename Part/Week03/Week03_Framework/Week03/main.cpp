@@ -32,7 +32,6 @@ int main(int argc, char **argv)
     if ( !valid )
     {
         cout << "Invalid input" << endl;
-        exit(1);
     }
     drawBoard();
     return 0;
