@@ -1,13 +1,12 @@
-/*************************************************************************
-File:   main.cpp
-
-Author:
-        張皓鈞 (B11030202@mail.ntust.edu.tw)
-        鄭健廷 (B11130225@mail.ntust.edu.tw)
-Comment:
-        Draw and print out the canvas.
-
-************************************************************************/
+/**
+ *  File: main.cpp
+ *  Author: 鄭健廷 (B11130225@mail.ntust.edu.tw)
+ *  Author: 張皓鈞 (B11030202@mail.ntust.edu.tw)
+ *  Create Date: 2023/03/20 00:08:21
+ *  Editor: 鄭健廷 (B11130225@mail.ntust.edu.tw)
+ *  Update Date: 2023/03/20 00:27:35
+ *  Description: Draw and print out the canvas.
+ */
 
 #include <iostream>
 #include <stdio.h>
