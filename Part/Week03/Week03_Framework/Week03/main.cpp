@@ -37,11 +37,8 @@ int main(int argc, char **argv)
     return 0;
 }
 
-/* Intent: If invalid input then output: "Invalid input" to warn the user
-           and output the valid dungeon at last.
-   Pre:  Boolen of whether the dungeon is valid.
-   Post: Output the last valid dungeon.
-         If the modify is invalid, then output the warning words.*/
+/* Intent: Output the valid dungeon at last.
+   Post: Output the last valid dungeon.*/
 void drawBoard()
 //==================================================================
 {
@@ -60,8 +57,6 @@ void drawBoard()
 }
 
 /* Intent: Make the initial dungeon.
-   Pre:  Two char input, one is for symball of wall
-         other is for symbal of blank.
    Post: Save the dungeon information into the char array of dungeonMap*/
 void makeBoard()
 //==================================================================
@@ -102,9 +97,7 @@ void makeBoard()
 }
 
 /* Intent: Modify the dungeon if the modification is valid.
-   Pre:  Two integer, respectively to the x and y position of the modification.
-         One char for the symabl of modification.
-         One boolen for record whether the modification is valid.
+   Pre: One boolen for record whether the modification is valid.
    Post: Modify the dungeon if the modification is valid,
          otherwise don't modify the dungeon, and record the boolen valid to false.*/
 void modifyBoard(bool &valid)
