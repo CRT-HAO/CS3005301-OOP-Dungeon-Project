@@ -14,7 +14,7 @@ Comment:
 
 using namespace std;
 
-void drawBoard(bool valid);    // Function to draw board
+void drawBoard();              // Function to draw board
 void makeBoard();              // Function to make board
 void modifyBoard(bool &valid); // Function to modify board
 
@@ -23,12 +23,18 @@ char dungenMap[DUNGEN_ROW][DUNGEN_COL];
 
 int main(int argc, char **argv)
 {
-    bool valid = true;
 
     makeBoard();
-    drawBoard(valid);
+    drawBoard();
+    bool valid = true;
     modifyBoard(valid);
-    drawBoard(valid);
+    // Print error if modify board fail
+    if ( !valid )
+    {
+        cout << "Invalid input" << endl;
+        exit(1);
+    }
+    drawBoard();
     return 0;
 }
 
@@ -37,16 +43,11 @@ int main(int argc, char **argv)
    Pre:  Boolen of whether the dungeon is valid.
    Post: Output the last valid dungeon.
          If the modify is invalid, then output the warning words.*/
-void drawBoard(bool valid)
+void drawBoard()
 //==================================================================
 {
     // Draw out the whole board
     /************************************************************************/
-    // Identify whether output the warning words.
-    if ( !valid )
-    {
-        cout << "Invalid input" << endl;
-    }
     // Output the dungeon
     for ( size_t i = 0; i < DUNGEN_ROW; i++ )
     {
@@ -122,14 +123,8 @@ void modifyBoard(bool &valid)
     cout << "Enter Y of modifying position: ";
     cin >> y;
     // Identify whether the input modification is valid, if valid then modify.
-    if ( (x > 0 && x < DUNGEN_COL - 1) && (y > 0 && y < DUNGEN_ROW - 1) )
-    {
-        valid = true;
+    valid = (x > 0 && x < DUNGEN_COL - 1) && (y > 0 && y < DUNGEN_ROW - 1);
+    if ( valid )
         dungenMap[y][x] = symbalModify;
-    }
-    else
-    {
-        valid = false;
-    }
     /************************************************************************/
 }
