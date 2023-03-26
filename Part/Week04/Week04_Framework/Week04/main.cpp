@@ -2,28 +2,30 @@
 File:   Source.cpp
 
 Author:
-		Áé½å¼s¡Aea5878158@gmail.com
+  é¾è³¢å»£ï¼Œea5878158@gmail.com
 Modifier:
-		¿à¯§¦N¡Acheeryuchi@gmail.com
-		³¯«T¦t¡AJYCReports@gmail.com
-		ªô¹Å¿³¡Atbcey74123@gmail.com
+  è³´ç¥å‰ï¼Œcheeryuchi@gmail.com
+  é™³ä¿Šå®‡ï¼ŒJYCReports@gmail.com
+  é‚±å˜‰èˆˆï¼Œtbcey74123@gmail.com
 Comment:
-		°ò¥»¿é¤J¤è¦V²¾°Ê¥\¯à¡Aw s a d ²¾°Ê¸}¦â¤W¤U¥ª¥k¡AªÅ¥Õ§ïÅÜ¸}¦â¯¸¥ß¤§¦aªO¦r¤¸¡A
-		ESC¬OÂ÷¶}µe­±¡C¦P®É§ó·s¹Ïª©¤Wªº¸ê°T¡C
+  åŸºæœ¬è¼¸å…¥æ–¹å‘ç§»å‹•åŠŸèƒ½ï¼Œw s a d ç§»å‹•è…³è‰²ä¸Šä¸‹å·¦å³ï¼Œç©ºç™½æ”¹è®Šè…³è‰²ç«™ç«‹ä¹‹åœ°æ¿å­—å…ƒï¼Œ
+  ESCæ˜¯é›¢é–‹ç•«é¢ã€‚åŒæ™‚æ›´æ–°åœ–ç‰ˆä¸Šçš„è³‡è¨Šã€‚
 
 ************************************************************************/
+#include <conio.h>  // _getch() <= to read input without enter "ENTER" key
+#include <math.h>   // pow() and sqrt()
+
+#include <algorithm>  // for max and min function
+#include <ctime>      // for time loop function
+#include <cstdlib> 		// for rand function
 #include <iostream>
-#include <math.h>		// pow() and sqrt()
-#include <ctime>		// for time loop function
-#include <conio.h>		// _getch() <= to read input without enter "ENTER" key
-#include <algorithm>	// for max and min function
 
 //************************************************************
 // The location in the board
 //************************************************************
 struct Position {
-	int x; // X, y Coordinate
-	int y;
+  int x;  // X, y Coordinate
+  int y;
 };
 
 // Check whether the location is a valid one i.e. not a wall
@@ -33,51 +35,115 @@ bool isPositionValid(Position& loc);
 // Hero Class, only has requirement part for example
 //************************************************************
 class Hero {
-private:
-	Position	sPos;			// Hero location
-	char sIcon = 'H';	// Hero icon
+ private:
+  Position sPos;     // Hero location
+  char sIcon = 'H';  // Hero icon
 
-public:
-	// Default constructor
-	Hero() {
-		this->sPos.x = 0;
-		this->sPos.y = 0;
-		this->sIcon = 'H';
-	};
+ public:
+  // Default constructor
+  Hero() {
+    this->sPos.x = 0;
+    this->sPos.y = 0;
+    this->sIcon = 'H';
+  };
 
-	// Set position
-	void setPos(Position pos) { this->sPos = pos; }
-	void setPos(int x, int y) {
-		this->sPos.x = x;
-		this->sPos.y = y;
-	}
+  // Set position
+  void setPos(Position pos) { this->sPos = pos; }
+  void setPos(int x, int y) {
+    this->sPos.x = x;
+    this->sPos.y = y;
+  }
 
-	// Set icon
-	void setIcon(char& icon) { this->sIcon = icon; }
+  // Set icon
+  void setIcon(char& icon) { this->sIcon = icon; }
 
-	// Get position
-	Position getPos(void) { return this->sPos; }
+  // Get position
+  Position getPos(void) { return this->sPos; }
 
-	// Get Icon
-	char getIcon(void) { return this->sIcon; }
+  // Get Icon
+  char getIcon(void) { return this->sIcon; }
 
-	// Incrementally move the elements 
-	void move(int deltaX, int deltaY) {
+  // Incrementally move the elements
+  void move(int deltaX, int deltaY) {
 		// Implement Hero controls
 		/*Please implement your code here*/
-
+		Position newPos = {this->sPos.x + deltaX, this->sPos.y + deltaY};
+		if(isPositionValid(newPos))
+			this->sPos = newPos;
 		/************************************************************************/
-	}
+  }
 };
 
 // clip algroithm
 float clip(float n, float minimun, float maximum);
 
 class Creature {
+  // Implement Creature Class
+  /*Please implement your code here*/
+ private:
+  Position sPos;     // Creature location
+  char sIcon = '@';  // Creature icon
 
-	// Implement Creature Class
-	/*Please implement your code here*/
+ public:
+  // Default constructor
+  Creature() {
+    this->sPos.x = 0;
+    this->sPos.y = 0;
+    this->sIcon = '@';
+  };
 
+  // Set position
+  void setPos(Position pos) { this->sPos = pos; }
+  void setPos(int x, int y) {
+    this->sPos.x = x;
+    this->sPos.y = y;
+  }
+
+  // Set icon
+  void setIcon(char& icon) { this->sIcon = icon; }
+
+  // Get position
+  Position getPos(void) { return this->sPos; }
+
+  // Get Icon
+  char getIcon(void) { return this->sIcon; }
+
+  // Incrementally move the elements
+  void move(int deltaX, int deltaY) {
+		Position newPos = {this->sPos.x + deltaX, this->sPos.y + deltaY};
+		if(isPositionValid(newPos))
+			this->sPos = newPos;
+  }
+
+	bool isPosVisible(Position pos) {
+		int disX = abs(pos.x - this->sPos.x);
+		int disY = abs(pos.y - this->sPos.y);
+		return (disX <= 2 && disY <= 2);
+	}
+
+	void update(Position heroPos) {
+		if(isPosVisible(heroPos)) {
+
+		}else{
+			int rd = rand() % 4;
+			int deltaX, deltaY;
+			switch(rd) {
+				case 0:
+					deltaX = 0, deltaY = -1;
+					break;
+				case 1:
+					deltaX = 0, deltaY = 1;
+					break;
+				case 2:
+					deltaX = -1, deltaY = 0;
+					break;
+				case 3:
+					deltaX = 1, deltaY = 0;
+					break;
+			}
+			this->move(deltaX, deltaY);
+		}
+	}
 	/************************************************************************/
 };
 
@@ -92,139 +158,137 @@ const double gTimeLog = 0.033;
 // Distance
 const int gDistance = 4;
 
-// ¥Î¨ÓÀx¦sª©­±¸ê®Æ
+// ç”¨ä¾†å„²å­˜ç‰ˆé¢è³‡æ–™
 char gBoard[GHEIGHT][GWIDTH];
 
-// ©w¸q¤»ºØ¿é¤J«ü¥O»P¹ïÀ³°}¦Cindex
-enum ValidInput
-{
-	EW = 0,
-	ES = 1,
-	EA = 2,
-	ED = 3,
-	ESPACE = 4,
-	EESC = 5,
-	INVALID,
+// å®šç¾©å…­ç¨®è¼¸å…¥æŒ‡ä»¤èˆ‡å°æ‡‰é™£åˆ—index
+enum ValidInput {
+  EW = 0,
+  ES = 1,
+  EA = 2,
+  ED = 3,
+  ESPACE = 4,
+  EESC = 5,
+  INVALID,
 };
 
 Hero gHero;
 Creature gCreature;
 
 // function declare
-// °»´ú¿é¤Jª¬ºA
+// åµæ¸¬è¼¸å…¥ç‹€æ…‹
 void keyUpdate(bool key[]);
-// §PÂ_¦ì¸m¬O§_¬°ªÅ
+// åˆ¤æ–·ä½ç½®æ˜¯å¦ç‚ºç©º
 bool isPositionValid(Position& loc);
-// ªì©l¤Æª©­±
+// åˆå§‹åŒ–ç‰ˆé¢
 void setupBoard();
-// ¿é¥Xª©­±
+// è¼¸å‡ºç‰ˆé¢
 void draw(void);
-// ¿é¥X»¡©ú¸ê°T
+// è¼¸å‡ºèªªæ˜è³‡è¨Š
 void drawInfo(void);
 
-// µ{¦¡¥DÅX°Ê¨ç¦¡
+// ç¨‹å¼ä¸»é©…å‹•å‡½å¼
 void update(bool key[]);
 
-int main(int argc, char** argv)
-{
-	srand(time(NULL));
+int main(int argc, char** argv) {
+  srand(time(NULL));
 
-	// ¥Î¨ÓºŞ²zÁä½L¿é¤Jª¬ºAªº°}¦C
-	bool gKeyState[6];
+  // ç”¨ä¾†ç®¡ç†éµç›¤è¼¸å…¥ç‹€æ…‹çš„é™£åˆ—
+  bool gKeyState[6];
 
-	// Setup a clear dungeon
-	setupBoard();
+  // Setup a clear dungeon
+  setupBoard();
 
-	// Set the position of Hero
-	gHero.setPos(2, 2);
+  // Set the position of Hero
+  gHero.setPos(2, 2);
 
-	gCreature.setPos(5, 6);
+  gCreature.setPos(5, 6);
 
-	// Draw the bord and information
-	draw();
-	drawInfo();
+  // Draw the bord and information
+  draw();
+  drawInfo();
 
-	// Variable for game loop
-	clock_t startT, endT;
-	startT = clock();
-	endT = clock();
+  // Variable for game loop
+  clock_t startT, endT;
+  startT = clock();
+  endT = clock();
 
-	// Get the press key
-	keyUpdate(gKeyState);
+  // Get the press key
+  keyUpdate(gKeyState);
 
-	// Run the game loop
-	while (!gKeyState[ValidInput::EESC]) {
-		// Compute the time lap
-		double timeFrame = (double)(endT - startT) / CLOCKS_PER_SEC;
+  // Run the game loop
+  while (!gKeyState[ValidInput::EESC]) {
+    // Compute the time lap
+    double timeFrame = (double)(endT - startT) / CLOCKS_PER_SEC;
 
-		// Execute the game loop
-		if (timeFrame >= gTimeLog) {
-			update(gKeyState);
-			startT = clock();
-		}
+    // Execute the game loop
+    if (timeFrame >= gTimeLog) {
+      update(gKeyState);
+      startT = clock();
+    }
 
-		// Update the key
-		keyUpdate(gKeyState);
-		endT = clock();
-	}
+    // Update the key
+    keyUpdate(gKeyState);
+    endT = clock();
+  }
 
-	system("pause");
-	return 0;
+  system("pause");
+  return 0;
 }
 
 //******************************************************************
 //
-// * °»´ú¿é¤Jª¬ºA
+// * åµæ¸¬è¼¸å…¥ç‹€æ…‹
 //==================================================================
 void keyUpdate(bool key[])
 //==================================================================
 {
-	for (int i = 0; i < ValidInput::INVALID; i++) {
-		key[i] = false;
-	}
-	char input = _getch();
-	switch (input) {
-	case 'w':
-		key[ValidInput::EW] = true;
-		break;
-	case 's':
-		key[ValidInput::ES] = true;
-		break;
-	case 'a':
-		key[ValidInput::EA] = true;
-		break;
-	case 'd':
-		key[ValidInput::ED] = true;
-		break;
-	case ' ':
-		key[ValidInput::ESPACE] = true;
-		break;
-	case 27:
-		key[ValidInput::EESC] = true;
-		break;
-	default:
-		break;
-	}
+  for (int i = 0; i < ValidInput::INVALID; i++) {
+    key[i] = false;
+  }
+  char input = _getch();
+  switch (input) {
+    case 'w':
+      key[ValidInput::EW] = true;
+      break;
+    case 's':
+      key[ValidInput::ES] = true;
+      break;
+    case 'a':
+      key[ValidInput::EA] = true;
+      break;
+    case 'd':
+      key[ValidInput::ED] = true;
+      break;
+    case ' ':
+      key[ValidInput::ESPACE] = true;
+      break;
+    case 27:
+      key[ValidInput::EESC] = true;
+      break;
+    default:
+      break;
+  }
 }
 
 //******************************************************************
 //
-// * §PÂ_¦ì¸m¬O§_¬°ªÅ
+// * åˆ¤æ–·ä½ç½®æ˜¯å¦ç‚ºç©º
 //==================================================================
 bool isPositionValid(Position& pos)
 //==================================================================
 {
-	// Check whether it is an empty space
-	if (gBoard[pos.y][pos.x] != GNOTHING)
-		return false;
+  // Check whether it is an empty space
+  if (gBoard[pos.y][pos.x] != GNOTHING)
+    return false;
 
-	if (pos.x == gHero.getPos().x && pos.y == gHero.getPos().y)
-		return false;
+  if (pos.x == gHero.getPos().x && pos.y == gHero.getPos().y)
+    return false;
 
-	if (pos.x == gCreature.getPos().x && pos.y == gCreature.getPos().y)
-		return false;
+  if (pos.x == gCreature.getPos().x && pos.y == gCreature.getPos().y)
+    return false;
 
-	return true;
+  return true;
 }
 
 //******************************************************************
@@ -234,7 +298,7 @@ bool isPositionValid(Position& pos)
 float clip(float n, float minimun, float maximum)
 //==================================================================
 {
-	return std::max(minimun, std::min(n, maximum));
+  return std::max(minimun, std::min(n, maximum));
 }
 
 //******************************************************************
@@ -244,19 +308,17 @@ float clip(float n, float minimun, float maximum)
 void setupBoard()
 //==================================================================
 {
-	for (int i = 0; i < GHEIGHT; i++) {
-		for (int j = 0; j < GWIDTH; j++) {
-			if (i == 0 || i == GHEIGHT - 1) {
-				gBoard[i][j] = GWALL;
-			}
-			else if (j == 0 || j == GWIDTH - 1) {
-				gBoard[i][j] = GWALL;
-			}
-			else {
-				gBoard[i][j] = GNOTHING;
-			}
-		}
-	}
+  for (int i = 0; i < GHEIGHT; i++) {
+    for (int j = 0; j < GWIDTH; j++) {
+      if (i == 0 || i == GHEIGHT - 1) {
+        gBoard[i][j] = GWALL;
+      } else if (j == 0 || j == GWIDTH - 1) {
+        gBoard[i][j] = GWALL;
+      } else {
+        gBoard[i][j] = GNOTHING;
+      }
+    }
+  }
 }
 
 //******************************************************************
@@ -266,29 +328,29 @@ void setupBoard()
 void draw()
 //==================================================================
 {
-	// Add the hero into the board
-	char drawBoard[GHEIGHT][GWIDTH];
+  // Add the hero into the board
+  char drawBoard[GHEIGHT][GWIDTH];
 
-	for (int i = 0; i < GHEIGHT; i++) {
-		for (int j = 0; j < GWIDTH; j++) {
-			drawBoard[i][j] = gBoard[i][j];
-		}
-	}
+  for (int i = 0; i < GHEIGHT; i++) {
+    for (int j = 0; j < GWIDTH; j++) {
+      drawBoard[i][j] = gBoard[i][j];
+    }
+  }
 
-	// Update the hero information
-	Position h = gHero.getPos();
-	drawBoard[h.y][h.x] = gHero.getIcon();
+  // Update the hero information
+  Position h = gHero.getPos();
+  drawBoard[h.y][h.x] = gHero.getIcon();
 
-	Position c = gCreature.getPos();
-	drawBoard[c.y][c.x] = gCreature.getIcon();
+  Position c = gCreature.getPos();
+  drawBoard[c.y][c.x] = gCreature.getIcon();
 
-	// Draw the board
-	for (int i = 0; i < GHEIGHT; i++) {
-		for (int j = 0; j < GWIDTH; j++) {
-			std::cout << drawBoard[i][j]; //  output
-		}
-		std::cout << "\n";
-	}
+  // Draw the board
+  for (int i = 0; i < GHEIGHT; i++) {
+    for (int j = 0; j < GWIDTH; j++) {
+      std::cout << drawBoard[i][j];  //  output
+    }
+    std::cout << "\n";
+  }
 }
 
 //******************************************************************
@@ -298,13 +360,14 @@ void draw()
 void drawInfo(void)
 //==================================================================
 {
-	// Print Outputs
-	/*Please implement your code here*/
+  // Print Outputs
+  /*Please implement your code here*/
+  if(gCreature.isPosVisible(gHero.getPos()))
+    std::cout << "Creature saw Hero" << std::endl;
+  /************************************************************************/
 
-	/************************************************************************/
-
-	std::cout << "Use wsad key to move Hero " << gHero.getIcon() << std::endl;
-	std::cout << "Press ESC key to exit" << std::endl;
+  std::cout << "Use wsad key to move Hero " << gHero.getIcon() << std::endl;
+  std::cout << "Press ESC key to exit" << std::endl;
 }
 
 //******************************************************************
@@ -314,32 +377,28 @@ void drawInfo(void)
 void update(bool key[])
 //==================================================================
 {
-	// ²M°£ª©­±
-	system("CLS");
+  // æ¸…é™¤ç‰ˆé¢
+  system("CLS");
 
-	// ¬O§_¦³input
-	bool hasInput = false;
-	if (key[ValidInput::EW]) {
-		gHero.move(0, -1);
-		hasInput = true;
-	}
-	else if (key[ValidInput::ES]) {
-		gHero.move(0, 1);
-		hasInput = true;
-	}
-	else if (key[ValidInput::EA]) {
-		gHero.move(-1, 0);
-		hasInput = true;
-	}
-	else if (key[ValidInput::ED]) {
-		gHero.move(1, 0);
-		hasInput = true;
-	}
-	else {
-		std::cout << "invalid input\n";
-	}
-	//Calculate and Initiate Move
-	gCreature.update(gHero.getPos());
-	draw();
-	drawInfo();
+  // æ˜¯å¦æœ‰input
+  bool hasInput = false;
+  if (key[ValidInput::EW]) {
+    gHero.move(0, -1);
+    hasInput = true;
+  } else if (key[ValidInput::ES]) {
+    gHero.move(0, 1);
+    hasInput = true;
+  } else if (key[ValidInput::EA]) {
+    gHero.move(-1, 0);
+    hasInput = true;
+  } else if (key[ValidInput::ED]) {
+    gHero.move(1, 0);
+    hasInput = true;
+  } else {
+    std::cout << "invalid input\n";
+  }
+  // Calculate and Initiate Move
+  gCreature.update(gHero.getPos());
+  draw();
+  drawInfo();
 }
