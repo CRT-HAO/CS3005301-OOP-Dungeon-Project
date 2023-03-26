@@ -1,17 +1,14 @@
-/************************************************************************
-File:   Source.cpp
+/**
+ *  File: main.cpp
+ *  Author: 張皓鈞 (B11030202@mail.ntust.edu.tw)
+ *  Author: 鄭健廷 (B11130225@mail.ntust.edu.tw)
+ *  Create Date: 2023/03/23 21:35:15
+ *  Editor: 張皓鈞(HAO) m831718@gmail.com
+ *  Update Date: 2023/03/26 20:36:56
+ *  Description: 基本輸入方向移動功能，w s a d 移動腳色上下左右，
+ *               空白改變腳色站立之地板字元，ESC是離開畫面。同時更新圖版上的資訊。
+ */
 
-Author:
-  鍾賢廣，ea5878158@gmail.com
-Modifier:
-  賴祐吉，cheeryuchi@gmail.com
-  陳俊宇，JYCReports@gmail.com
-  邱嘉興，tbcey74123@gmail.com
-Comment:
-  基本輸入方向移動功能，w s a d 移動腳色上下左右，空白改變腳色站立之地板字元，
-  ESC是離開畫面。同時更新圖版上的資訊。
-
-************************************************************************/
 #include <conio.h> // _getch() <= to read input without enter "ENTER" key
 #include <math.h>  // pow() and sqrt()
 
@@ -73,6 +70,7 @@ public:
         // Implement Hero controls
         /*Please implement your code here*/
         Position newPos = {this->sPos.x + deltaX, this->sPos.y + deltaY};
+        // Check if the new position valid
         if ( isPositionValid(newPos) )
             this->sPos = newPos;
         /************************************************************************/
@@ -120,10 +118,12 @@ public:
     void move(int deltaX, int deltaY)
     {
         Position newPos = {this->sPos.x + deltaX, this->sPos.y + deltaY};
+        // Check if the new position valid
         if ( isPositionValid(newPos) )
             this->sPos = newPos;
     }
 
+    // Check if the position visible (distance <= 2)
     bool isPosVisible(Position pos)
     {
         int disX = abs(pos.x - this->sPos.x);
@@ -131,13 +131,29 @@ public:
         return (disX <= 2 && disY <= 2);
     }
 
+    // Update position
     void update(Position heroPos)
     {
+        // Check if hero visible
         if ( isPosVisible(heroPos) )
         {
+            // Follow hero
+            int disX = heroPos.x - this->sPos.x;
+            int disY = heroPos.y - this->sPos.y;
+            if ( abs(disX) > abs(disY) )
+                disY = 0;
+            else
+                disX = 0;
+            disX = disX > 1 ? 1 : disX;
+            disX = disX < -1 ? -1 : disX;
+            disY = disY > 1 ? 1 : disY;
+            disY = disY < -1 ? -1 : disY;
+
+            this->move(disX, disY);
         }
         else
         {
+            // Random move
             int rd = rand() % 4;
             int deltaX, deltaY;
             switch ( rd )
