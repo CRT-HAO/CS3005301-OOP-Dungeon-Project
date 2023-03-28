@@ -1,114 +1,139 @@
+/**
+ *  File: Hero.h
+ *  Author: 張皓鈞 (B11030202@mail.ntust.edu.tw)
+ *  Author: 鄭健廷 (B11130225@mail.ntust.edu.tw)
+ *  Create Date: 2023-03-28 18:12:41
+ *  Editor: 張皓鈞(HAO) m831718@gmail.com
+ *  Update Date: 2023/03/28 19:41:31
+ *  Description: Hero Class
+ */
+
 #pragma once
 #include <string>
+
 #include "Position.h"
 #include "main.h"
 //************************************************************
 // Hero Class, only has requirement part for example
 //************************************************************
 
-class Hero {
-
+class Hero
+{
 private:
-	Position	sPos;			// Hero location
-	char sIcon = 'H';	// Hero icon
-	int			hp;
-	int			sLevel = 1;     // Level
-	int			sMaxExp;		// Level update experience
-	int			sCurrentExp;	// current exp hero has
+    Position sPos;    // Hero location
+    char sIcon = 'H'; // Hero icon
+    int hp;
+    int sLevel = 1;  // Level
+    int sMaxExp;     // Level update experience
+    int sCurrentExp; // current exp hero has
 
 public:
-	// Default constructor
-	Hero() {
-		this->sPos.x = 0;
-		this->sPos.y = 0;
-		this->sLevel = 1;
-		this->sCurrentExp = 0;
-		this->sMaxExp = 15;
-		this->sIcon = 'H';
-		this->hp = 100;
-	};
-	// Setting constructor
-	Hero(int x, int y, int level = 1, int maxExp = 15, int currentExp = 0, char icon = 'H', int hp = 100) {
-		this->sPos.x = x;
-		this->sPos.y = y;
-		this->sLevel = level;
-		this->sCurrentExp = currentExp;
-		this->sMaxExp = maxExp;
-		this->sIcon = icon;
-		this->hp = hp;
-	};
+    // Default constructor
+    Hero()
+    {
+        this->sPos.x = 0;
+        this->sPos.y = 0;
+        this->sLevel = 1;
+        this->sCurrentExp = 0;
+        this->sMaxExp = 15;
+        this->sIcon = 'H';
+        this->hp = 100;
+    };
+    // Setting constructor
+    Hero(int x, int y, int level = 1, int maxExp = 15, int currentExp = 0, char icon = 'H', int hp = 100)
+    {
+        this->sPos.x = x;
+        this->sPos.y = y;
+        this->sLevel = level;
+        this->sCurrentExp = currentExp;
+        this->sMaxExp = maxExp;
+        this->sIcon = icon;
+        this->hp = hp;
+    };
 
-	// Setting constructor
-	Hero(Position& pos, int level = 1, int maxExp = 15, int currentExp = 0, char icon = 'H', int hp = 100) {
-		this->sPos = pos;
-		this->sLevel = level;
-		this->sCurrentExp = currentExp;
-		this->sMaxExp = maxExp;
-		this->sIcon = icon;
-		this->hp = hp;
-	};
+    // Setting constructor
+    Hero(Position &pos, int level = 1, int maxExp = 15, int currentExp = 0, char icon = 'H', int hp = 100)
+    {
+        this->sPos = pos;
+        this->sLevel = level;
+        this->sCurrentExp = currentExp;
+        this->sMaxExp = maxExp;
+        this->sIcon = icon;
+        this->hp = hp;
+    };
 
-	// Set position
-	void setPos(Position pos) { this->sPos = pos; }
-	void setPos(int x, int y) {
-		this->sPos.x = x;
-		this->sPos.y = y;
-	}
+    // Set position
+    void setPos(Position pos) { this->sPos = pos; }
+    void setPos(int x, int y)
+    {
+        this->sPos.x = x;
+        this->sPos.y = y;
+    }
 
-	// Set icon
-	void setIcon(char& icon) { this->sIcon = icon; }
+    // Set icon
+    void setIcon(char &icon) { this->sIcon = icon; }
 
-	// Set level
-	void setLevel(int level) { this->sLevel = level; }
+    // Set level
+    void setLevel(int level) { this->sLevel = level; }
 
-	// Set exp
-	void setExp(int exp) { this->sCurrentExp = exp; }
+    // Set exp
+    void setExp(int exp) { this->sCurrentExp = exp; }
 
-	// Set MaxExp
-	void SetMaxExp(int maxexp) { this->sMaxExp = maxexp; }
+    // Set MaxExp
+    void setMaxExp(int maxexp) { this->sMaxExp = maxexp; }
 
-	// Get position
-	Position getPos(void) { return this->sPos; }
+    // Set HP
+    void setHP(int hp) { this->hp = hp; }
 
-	// Get Icon
-	char getIcon(void) { return this->sIcon; }
+    // Get position
+    Position getPos(void) { return this->sPos; }
 
-	// Get level
-	int getLevel(void) { return this->sLevel; }
+    // Get Icon
+    char getIcon(void) { return this->sIcon; }
 
-	// Get Exp
-	int getExp(void) { return this->sCurrentExp; }
+    // Get level
+    int getLevel(void) { return this->sLevel; }
 
-	// Get Max
-	int getMaxExp(void) { return this->sMaxExp; }
+    // Get Exp
+    int getExp(void) { return this->sCurrentExp; }
 
-	int getHP() const { return this->hp; }
+    // Get Max
+    int getMaxExp(void) { return this->sMaxExp; }
 
-	// Incrementally move the elements 
-	void move(int x, int y) {
-		// Compute the next position
-		Position next;
-		next.x = this->sPos.x + x;
-		next.y = this->sPos.y + y;
+    // Get HP
+    int getHP() const { return this->hp; }
 
-		if (isPositionValid(next))
-			this->sPos = next;
-		else {
-			std::cout << "Invalid location\n";
-		}
-	}
+    // Incrementally move the elements
+    void move(int x, int y)
+    {
+        // Compute the next position
+        Position next;
+        next.x = this->sPos.x + x;
+        next.y = this->sPos.y + y;
 
-	// Calculate Gain of EXP
-	void gainEXP(int points) {
-		// Implement Gain of EXP
-		/*Please implement your code here*/
+        if ( isPositionValid(next) )
+            this->sPos = next;
+        else
+        {
+            std::cout << "Invalid location\n";
+        }
+    }
 
-		/************************************************************************/
-	}
-	void damage(int points) {
-		// Implement Damage done to Hero
-		/*Please implement your code here*/
-
-		/************************************************************************/
-	}
+    // Calculate Gain of EXP
+    void gainEXP(int points)
+    {
+        // Implement Gain of EXP
+        /*Please implement your code here*/
+        int newExp = this->getExp() + points;
+        this->setLevel(this->getLevel() + (newExp / this->getMaxExp()));
+        this->setExp(newExp % this->getMaxExp());
+        /************************************************************************/
+    }
+    void damage(int points)
+    {
+        // Implement Damage done to Hero
+        /*Please implement your code here*/
+        this->setHP(this->getHP() - points);
+        /************************************************************************/
+    }
 };

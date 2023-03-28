@@ -1,73 +1,78 @@
-/************************************************************************
-File:   source.cpp
-
-Author:
-		Áé½å¼s¡Aea5878158@gmail.com
-Modifier:
-		¿à¯§¦N¡Acheeryuchi@gmail.com
-		¶ÀªY¤ª¡Awindyhuang6@gmail.com
-		³¯«T¦t¡AJYCReports@gmail.com
-		ªô¹Å¿³¡Atbcey74123@gmail.com
-Comment:
-		°ò¥»¿é¤J¤è¦V²¾°Ê¥\¯à¡Aw s a d ²¾°Ê¸}¦â¤W¤U¥ª¥k¡AªÅ¥Õ§ïÅÜ¸}¦â¯¸¥ß¤§¦aªO¦r¤¸¡A¨ìT¤W¥i¥H¼W¥[¸gÅç
-		ESC¬OÂ÷¶}µe­±¡C¦P®É§ó·s¹Ïª©¤Wªº¸ê°T¡C
-
-************************************************************************/
+/**
+ *  File: main.cpp
+ *  Author: å¼µçš“éˆ (B11030202@mail.ntust.edu.tw)
+ *  Author: é„­å¥å»· (B11130225@mail.ntust.edu.tw)
+ *  Create Date: 2023-03-28 18:12:41
+ *  Editor: å¼µçš“éˆ(HAO) m831718@gmail.com
+ *  Update Date: 2023/03/28 18:41:26
+ *  Description: åŸºæœ¬è¼¸å…¥æ–¹å‘ç§»å‹•åŠŸèƒ½ï¼Œw s a d ç§»å‹•è…³è‰²ä¸Šä¸‹å·¦å³ï¼Œ
+ *               ç©ºç™½æ”¹è®Šè…³è‰²ç«™ç«‹ä¹‹åœ°æ¿å­—å…ƒï¼Œåˆ°Tä¸Šå¯ä»¥å¢åŠ ç¶“é©—ï¼ŒESCæ˜¯é›¢é–‹ç•«é¢ã€‚
+ *               åŒæ™‚æ›´æ–°åœ–ç‰ˆä¸Šçš„è³‡è¨Šã€‚
+ */
 
 #include "main.h"
+
 #include "Hero.h"
-Hero	 gHero(2, 2);
+Hero gHero(2, 2);
 
-
-
-class Creature {//creature class 
+// Creature class
+class Creature
+{
 private:
-	Position	sPos;			// Creature position
-	char sIcon = 'C';			// Creature icon
-	int power;
-public:
-	// Default constructor
-	Creature(void) {
-		this->sPos.x = 1;
-		this->sPos.y = 1;
-		this->sIcon = 'C';
-		this->power = 5;
-	};
-
-	// Set position
-	void setPos(Position pos) { this->sPos = pos; }
-	void setPos(int x, int y) {
-		this->sPos.x = x;
-		this->sPos.y = y;
-	}
-
-	// Set icon
-	void setIcon(char& icon) { this->sIcon = icon; }
-
-	// Get position
-	Position getPos(void) { return this->sPos; }
-
-	// Get Icon
-	char getIcon(void) { return this->sIcon; }
+    Position sPos;    // Creature position
+    char sIcon = 'C'; // Creature icon
+    int power;
 
 public:
-	void update(Hero& hero) {
-		Position hPos = hero.getPos();
+    // Default constructor
+    Creature(void)
+    {
+        this->sPos.x = 1;
+        this->sPos.y = 1;
+        this->sIcon = 'C';
+        this->power = 5;
+    };
 
-		Position dir;
-		if (canSee(this->sPos, hPos, dir)) {
-			std::cout << "Creature has find the Hero in the ( " << dir.x << ", " << dir.y << " ) direction\n";
-			this->sIcon = '!';
-		}
-		else {
-			std::cout << "Creature didn't find the Hero\n";
-			this->sIcon = 'C';
-		}
+    // Set position
+    void setPos(Position pos) { this->sPos = pos; }
+    void setPos(int x, int y)
+    {
+        this->sPos.x = x;
+        this->sPos.y = y;
+    }
 
-		if (hPos.x == sPos.x && hPos.y == sPos.y) {
-			hero.damage(power);
-		}
-	}
+    // Set icon
+    void setIcon(char &icon) { this->sIcon = icon; }
+
+    // Get position
+    Position getPos(void) { return this->sPos; }
+
+    // Get Icon
+    char getIcon(void) { return this->sIcon; }
+
+public:
+    void update(Hero &hero)
+    {
+        Position hPos = hero.getPos();
+
+        Position dir;
+        if ( canSee(this->sPos, hPos, dir) )
+        {
+            std::cout << "Creature has find the Hero in the ( "
+                      << dir.x << ", " << dir.y << " ) direction\n";
+            this->sIcon = '!';
+        }
+        else
+        {
+            std::cout << "Creature didn't find the Hero\n";
+            this->sIcon = 'C';
+        }
+
+        if ( hPos.x == sPos.x && hPos.y == sPos.y )
+        {
+            hero.damage(power);
+        }
+    }
 };
 
 // Constent value
@@ -81,130 +86,133 @@ const double gTimeLog = 0.033;
 // Distance
 const int gDistance = 4;
 
-// ¥Î¨ÓÀx¦sª©­±¸ê®Æ
+// ç”¨ä¾†å„²å­˜ç‰ˆé¢è³‡æ–™
 char gBoard[GHEIGHT][GWIDTH];
 
-// ©w¸q¤»ºØ¿é¤J«ü¥O»P¹ïÀ³°}¦Cindex
+// å®šç¾©å…­ç¨®è¼¸å…¥æŒ‡ä»¤èˆ‡å°æ‡‰é™£åˆ—index
 enum ValidInput
 {
-	EW = 0,
-	ES = 1,
-	EA = 2,
-	ED = 3,
-	ESPACE = 4,
-	EESC = 5,
-	INVALID,
+    EW = 0,
+    ES = 1,
+    EA = 2,
+    ED = 3,
+    ESPACE = 4,
+    EESC = 5,
+    INVALID,
 };
-
 
 Creature gCreature;
 
 // function declare
-// °»´ú¿é¤Jª¬ºA
+// åµæ¸¬è¼¸å…¥ç‹€æ…‹
 void keyUpdate(bool key[]);
-// ªì©l¤Æª©­±
+// åˆå§‹åŒ–ç‰ˆé¢
 void setupBoard();
-// ¿é¥Xª©­±
+// è¼¸å‡ºç‰ˆé¢
 void draw(void);
-// ¿é¥X»¡©ú¸ê°T
+// è¼¸å‡ºèªªæ˜è³‡è¨Š
 void drawInfo(void);
 
-// µ{¦¡¥DÅX°Ê¨ç¦¡
+// ç¨‹å¼ä¸»é©…å‹•å‡½å¼
 void update(bool key[]);
 
 Trigger gTrigger(5, 5, 10);
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
-	srand(time(NULL));
+    srand(time(NULL));
 
-	// ¥Î¨ÓºŞ²zÁä½L¿é¤Jª¬ºAªº°}¦C
-	bool gKeyState[6];
+    // ç”¨ä¾†ç®¡ç†éµç›¤è¼¸å…¥ç‹€æ…‹çš„é™£åˆ—
+    bool gKeyState[6];
 
-	// Setup a clear dungeon
-	setupBoard();
+    // Setup a clear dungeon
+    setupBoard();
 
-	gCreature.setPos(5, 6);
+    gCreature.setPos(5, 6);
 
-	// Draw the bord and information
-	draw();
-	drawInfo();
+    // Draw the bord and information
+    draw();
+    drawInfo();
 
-	// Variable for game loop
-	clock_t startT, endT;
-	startT = clock();
-	endT = clock();
+    // Variable for game loop
+    clock_t startT, endT;
+    startT = clock();
+    endT = clock();
 
-	// Get the press key
-	keyUpdate(gKeyState);
+    // Get the press key
+    keyUpdate(gKeyState);
 
-	// Run the game loop
-	while (!gKeyState[ValidInput::EESC]) {
-		// Compute the time lap
-		double timeFrame = (double)(endT - startT) / CLOCKS_PER_SEC;
+    // Run the game loop
+    while ( !gKeyState[ValidInput::EESC] )
+    {
+        // Compute the time lap
+        double timeFrame = (double)(endT - startT) / CLOCKS_PER_SEC;
 
-		// Execute the game loop
-		if (timeFrame >= gTimeLog) {
-			update(gKeyState);
-			startT = clock();
-		}
+        // Execute the game loop
+        if ( timeFrame >= gTimeLog )
+        {
+            update(gKeyState);
+            startT = clock();
+        }
 
-		// Update the key
-		keyUpdate(gKeyState);
-		endT = clock();
-	}
+        // Update the key
+        keyUpdate(gKeyState);
+        endT = clock();
+    }
 
-	system("pause");
-	return 0;
+    system("pause");
+    return 0;
 }
 
 //******************************************************************
 //
-// * °»´ú¿é¤Jª¬ºA
+// * åµæ¸¬è¼¸å…¥ç‹€æ…‹
 //==================================================================
 void keyUpdate(bool key[])
 //==================================================================
 {
-	for (int i = 0; i < ValidInput::INVALID; i++) {
-		key[i] = false;
-	}
-	char input = _getch();
-	switch (input) {
-	case 'w':
-		key[ValidInput::EW] = true;
-		break;
-	case 's':
-		key[ValidInput::ES] = true;
-		break;
-	case 'a':
-		key[ValidInput::EA] = true;
-		break;
-	case 'd':
-		key[ValidInput::ED] = true;
-		break;
-	case ' ':
-		key[ValidInput::ESPACE] = true;
-		break;
-	case 27:
-		key[ValidInput::EESC] = true;
-		break;
-	default:
-		break;
-	}
+    for ( int i = 0; i < ValidInput::INVALID; i++ )
+    {
+        key[i] = false;
+    }
+    char input = _getch();
+    switch ( input )
+    {
+    case 'w':
+        key[ValidInput::EW] = true;
+        break;
+    case 's':
+        key[ValidInput::ES] = true;
+        break;
+    case 'a':
+        key[ValidInput::EA] = true;
+        break;
+    case 'd':
+        key[ValidInput::ED] = true;
+        break;
+    case ' ':
+        key[ValidInput::ESPACE] = true;
+        break;
+    case 27:
+        key[ValidInput::EESC] = true;
+        break;
+    default:
+        break;
+    }
 }
 
 //******************************************************************
 //
-// * §PÂ_¦ì¸m¬O§_¬°ªÅ
+// * åˆ¤æ–·ä½ç½®æ˜¯å¦ç‚ºç©º
 //==================================================================
-bool isPositionValid(Position& pos)
+bool isPositionValid(Position &pos)
 //==================================================================
 {
-	// Check whether it is an empty space
-	if (gBoard[pos.y][pos.x] != GNOTHING)
-		return false;
+    // Check whether it is an empty space
+    if ( gBoard[pos.y][pos.x] != GNOTHING )
+        return false;
 
-	return true;
+    return true;
 }
 
 //******************************************************************
@@ -214,29 +222,32 @@ bool isPositionValid(Position& pos)
 float clip(float n, float minimun, float maximum)
 //==================================================================
 {
-	return std::max(minimun, std::min(n, maximum));
+    return std::max(minimun, std::min(n, maximum));
 }
 
 //******************************************************************
 //
-// * §Q¥Î call-by-referce ±N­pºâ±o¨ìªº¤è¦V¦^¶Ç
+// * åˆ©ç”¨ call-by-referce å°‡è¨ˆç®—å¾—åˆ°çš„æ–¹å‘å›å‚³
 //==================================================================
-bool canSee(Position cPos, Position hPos, Position& dir)
+bool canSee(Position cPos, Position hPos, Position &dir)
 //==================================================================
 {
-	// the dir_x and dir_y value are call-by-refernce
-	dir.x = (int)clip((float)(hPos.x - cPos.x), -1.f, 1.f); // clip the value between -1 ~ 1
-	dir.y = (int)clip((float)(hPos.y - cPos.y), -1.f, 1.f);
-	int count = 0;
-	do {
-		// spot the target position
-		if (cPos.x + dir.x * count == hPos.x &&
-			cPos.y + dir.y * count == hPos.y) {
-			return true;
-		}
-		count++;
-	} while (count < gDistance); // check the range in 4 units
-	return false;
+    // the dir_x and dir_y value are call-by-refernce
+    // clip the value between -1 ~ 1
+    dir.x = (int)clip((float)(hPos.x - cPos.x), -1.f, 1.f);
+    dir.y = (int)clip((float)(hPos.y - cPos.y), -1.f, 1.f);
+    int count = 0;
+    do
+    {
+        // spot the target position
+        if ( cPos.x + dir.x * count == hPos.x &&
+             cPos.y + dir.y * count == hPos.y )
+        {
+            return true;
+        }
+        count++;
+    } while ( count < gDistance ); // check the range in 4 units
+    return false;
 }
 
 //******************************************************************
@@ -246,19 +257,24 @@ bool canSee(Position cPos, Position hPos, Position& dir)
 void setupBoard()
 //==================================================================
 {
-	for (int i = 0; i < GHEIGHT; i++) {
-		for (int j = 0; j < GWIDTH; j++) {
-			if (i == 0 || i == GHEIGHT - 1) {
-				gBoard[i][j] = GWALL;
-			}
-			else if (j == 0 || j == GWIDTH - 1) {
-				gBoard[i][j] = GWALL;
-			}
-			else {
-				gBoard[i][j] = GNOTHING;
-			}
-		}
-	}
+    for ( int i = 0; i < GHEIGHT; i++ )
+    {
+        for ( int j = 0; j < GWIDTH; j++ )
+        {
+            if ( i == 0 || i == GHEIGHT - 1 )
+            {
+                gBoard[i][j] = GWALL;
+            }
+            else if ( j == 0 || j == GWIDTH - 1 )
+            {
+                gBoard[i][j] = GWALL;
+            }
+            else
+            {
+                gBoard[i][j] = GNOTHING;
+            }
+        }
+    }
 }
 
 //******************************************************************
@@ -268,32 +284,36 @@ void setupBoard()
 void draw()
 //==================================================================
 {
-	// Add the hero into the board
-	char drawBoard[GHEIGHT][GWIDTH];
+    // Add the hero into the board
+    char drawBoard[GHEIGHT][GWIDTH];
 
-	for (int i = 0; i < GHEIGHT; i++) {
-		for (int j = 0; j < GWIDTH; j++) {
-			drawBoard[i][j] = gBoard[i][j];
-		}
-	}
+    for ( int i = 0; i < GHEIGHT; i++ )
+    {
+        for ( int j = 0; j < GWIDTH; j++ )
+        {
+            drawBoard[i][j] = gBoard[i][j];
+        }
+    }
 
-	Position t = gTrigger.getPos();
-	drawBoard[t.y][t.x] = gTrigger.getIcon();
+    Position t = gTrigger.getPos();
+    drawBoard[t.y][t.x] = gTrigger.getIcon();
 
-	Position c = gCreature.getPos();
-	drawBoard[c.y][c.x] = gCreature.getIcon();
+    Position c = gCreature.getPos();
+    drawBoard[c.y][c.x] = gCreature.getIcon();
 
-	// Update the hero information
-	Position h = gHero.getPos();
-	drawBoard[h.y][h.x] = gHero.getIcon();
+    // Update the hero information
+    Position h = gHero.getPos();
+    drawBoard[h.y][h.x] = gHero.getIcon();
 
-	// Draw the board
-	for (int i = 0; i < GHEIGHT; i++) {
-		for (int j = 0; j < GWIDTH; j++) {
-			std::cout << drawBoard[i][j]; //  output
-		}
-		std::cout << "\n";
-	}
+    // Draw the board
+    for ( int i = 0; i < GHEIGHT; i++ )
+    {
+        for ( int j = 0; j < GWIDTH; j++ )
+        {
+            std::cout << drawBoard[i][j]; //  output
+        }
+        std::cout << "\n";
+    }
 }
 
 //******************************************************************
@@ -303,11 +323,14 @@ void draw()
 void drawInfo(void)
 //==================================================================
 {
-	std::cout << "The hero is level " << gHero.getLevel() << "(" << gHero.getExp() << "/" << gHero.getMaxExp() << " to level up)" << std::endl;
-	std::cout << "The hero has " << gHero.getHP() << " hp" << std::endl;
-	std::cout << "Use wsad key to move Hero " << gHero.getIcon() << std::endl;
-	std::cout << "Every time you step on a trigger T, the hero gets " << gTrigger.getExpAmount() << " EXP points" << std::endl;
-	std::cout << "Press ESC key to exit" << std::endl;
+    std::cout << "The hero is level " << gHero.getLevel()
+              << "(" << gHero.getExp() << "/" << gHero.getMaxExp()
+              << " to level up)" << std::endl;
+    std::cout << "The hero has " << gHero.getHP() << " hp" << std::endl;
+    std::cout << "Use wsad key to move Hero " << gHero.getIcon() << std::endl;
+    std::cout << "Every time you step on a trigger T, the hero gets "
+              << gTrigger.getExpAmount() << " EXP points" << std::endl;
+    std::cout << "Press ESC key to exit" << std::endl;
 }
 
 //******************************************************************
@@ -317,32 +340,37 @@ void drawInfo(void)
 void update(bool key[])
 //==================================================================
 {
-	// ²M°£ª©­±
-	system("CLS");
+    // æ¸…é™¤ç‰ˆé¢
+    system("CLS");
 
-	// ¬O§_¦³input
-	bool hasInput = false;
-	if (key[ValidInput::EW]) {
-		gHero.move(0, -1);
-		hasInput = true;
-	}
-	else if (key[ValidInput::ES]) {
-		gHero.move(0, 1);
-		hasInput = true;
-	}
-	else if (key[ValidInput::EA]) {
-		gHero.move(-1, 0);
-		hasInput = true;
-	}
-	else if (key[ValidInput::ED]) {
-		gHero.move(1, 0);
-		hasInput = true;
-	}
-	else {
-		std::cout << "invalid input\n";
-	}
-	gTrigger.update(gHero);
-	gCreature.update(gHero);
-	draw();
-	drawInfo();
+    // æ˜¯å¦æœ‰input
+    bool hasInput = false;
+    if ( key[ValidInput::EW] )
+    {
+        gHero.move(0, -1);
+        hasInput = true;
+    }
+    else if ( key[ValidInput::ES] )
+    {
+        gHero.move(0, 1);
+        hasInput = true;
+    }
+    else if ( key[ValidInput::EA] )
+    {
+        gHero.move(-1, 0);
+        hasInput = true;
+    }
+    else if ( key[ValidInput::ED] )
+    {
+        gHero.move(1, 0);
+        hasInput = true;
+    }
+    else
+    {
+        std::cout << "invalid input\n";
+    }
+    gTrigger.update(gHero);
+    gCreature.update(gHero);
+    draw();
+    drawInfo();
 }
