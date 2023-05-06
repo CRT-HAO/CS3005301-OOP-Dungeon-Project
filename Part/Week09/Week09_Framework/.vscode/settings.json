@@ -6,27 +6,31 @@
       "startWith": "/**",
       "middleWith": "*",
       "endWith": "*/",
-      "headerPrefix": "",
+      "headerPrefix": ""
     },
     "header": {
       "File": "Filename",
       "Author": "Your Name",
       "Create Date": {
         "type": "createTime",
-        "format": "YYYY/MM/DD HH:mm:ss",
+        "format": "YYYY/MM/DD HH:mm:ss"
       },
       "Update Date": {
         "type": "modifyTime",
         "format": "YYYY/MM/DD HH:mm:ss"
       },
-      "Description": "",
+      "Description": ""
     }
   },
   "files.associations": {
+    "*.embeddedhtml": "html",
     "*.jsrender": "html",
     "ctime": "cpp",
     "thread": "cpp",
     "iostream": "cpp",
-    "ostream": "cpp"
-  }
+    "ostream": "cpp",
+    "fstream": "cpp",
+    "vector": "cpp"
+  },
+  "C_Cpp.default.configurationProvider": "go2sh.cmake-integration"
 }
