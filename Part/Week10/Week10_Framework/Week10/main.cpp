@@ -4,7 +4,7 @@
  *  Author: ?G???? (B11130225@mail.ntust.edu.tw)
  *  Create Date: 2023/05/10 15:02:27
  *  Editor: 鄭健廷 (B11130225@mail.ntust.edu.tw)
- *  Update Date: 2023/05/12 16:44:27
+ *  Update Date: 2023/05/14 17:47:19
  *  Description: ????J??V????\??Aw s a d ????}??W?U???k?A
                  ??????}??????a?O?r???A??T?W?i?H?W?[?g??A
                  ESC?O???}?e???C?P???s????W????T?C
@@ -13,6 +13,7 @@
 #include "main.h"
 #include "Hero.h"
 #include <fstream>
+#include <string>
 #include <vector>
 Hero gHero(2, 2);
 
@@ -115,6 +116,12 @@ void setupBoard(int rowN, int colN);
 void draw(void);
 // ??X??????T
 void drawInfo(void);
+// void fillBoard();
+// 挖空牆壁
+// void mazeWalk(std::string **board);
+// 遞迴演算法
+// void mazeStep(std::string **board, Position pos);
+void CreateMaze(char **board, int x1, int y1, int x2, int y2);
 // void randommap(int x, int y, int height, int width);
 // void openAdoor(int x1, int y1, int x2, int y2);
 
@@ -123,7 +130,7 @@ void update(bool key[]);
 
 void saveMap();
 void loadMap();
-void randomWall(int x, int y, int width, int height, bool orientation);
+// void randomWall(int x, int y, int width, int height, bool orientation);
 
 std::vector<Trigger *> gTriggers;
 
@@ -313,13 +320,18 @@ void setupBoard(int rowN, int colN)
                 gBoard[i][j] = GNOTHING;
         }
     }
+
+    // fillBoard();
+
+    CreateMaze(gBoard, 1, 1, GWIDTH - 2, GHEIGHT - 2);
+
     // int startX = rand() % (rowN - 2) + 1;
     // int startY = rand() % (colN - 2) + 1;
 
     // randommap(startX, startY, colN, rowN);
     /*Please implement your code here*/
-    int g = rand();
-    randomWall(0, 0, GWIDTH, GHEIGHT, g % 2);
+    // int g = rand();
+    // randomWall(0, 0, GWIDTH, GHEIGHT, g % 2);
 
     // Setup for ( random ) position of all elements and implementation of game
     //     board using 2d dynamic array
@@ -688,45 +700,217 @@ void loadMap()
 // }
 
 // orientation false == vertical;true == horizontal
-void randomWall(int x, int y, int width, int height, bool orientation)
+// void randomWall(int x, int y, int width, int height, bool orientation)
+// {
+
+//     x++, y++, width -= 2, height -= 2;
+//     if ( width <= 2 || height <= 2 )
+//         return;
+
+//     unsigned int wallHoleX, wallHoleY;
+
+//     // Calcaulate where the wall hole will be
+//     wallHoleX = x + (rand() % (width - (orientation ? 0 : 2)) +
+//                      (orientation ? 0 : 1));
+//     wallHoleY = y + (rand() % (height - (orientation ? 2 : 0)) +
+//                      (orientation ? 1 : 0));
+
+//     // Draw the wall with hole
+//     // std::cout << wallHoleX << " " << wallHoleY << std::endl;
+
+//     for ( size_t i = (orientation ? x : y);
+//           i < (orientation ? width : height) + 1; i++ )
+//     {
+//         if ( orientation )
+//         {
+//             if ( i != wallHoleX )
+//                 gBoard[wallHoleY][i] = GWALL;
+//         }
+//         else
+//         {
+//             if ( i != wallHoleY )
+//                 gBoard[i][wallHoleX] = GWALL;
+//         }
+//     }
+
+//     x--, y--, width += 2, height += 2;
+//     randomWall(x, y, wallHoleX + 1, wallHoleY + 1, !orientation);
+//     randomWall(wallHoleX, y, width - wallHoleX,
+//                wallHoleY + 1, !orientation);
+//     randomWall(x, wallHoleY, wallHoleX + 1,
+//                height - wallHoleY, !orientation);
+//     randomWall(wallHoleX, wallHoleY, width - wallHoleX,
+//                height - wallHoleY, !orientation);
+// }
+void CreateMaze(char **board, int x1, int y1, int x2, int y2)
 {
-
-    x++, y++, width -= 2, height -= 2;
-    if ( width <= 2 || height <= 2 )
-        return;
-
-    unsigned int wallHoleX, wallHoleY;
-
-    // Calcaulate where the wall hole will be
-    wallHoleX = x + (rand() % (width - (orientation ? 0 : 2)) +
-                     (orientation ? 0 : 1));
-    wallHoleY = y + (rand() % (height - (orientation ? 2 : 0)) +
-                     (orientation ? 1 : 0));
-
-    // Draw the wall with hole
-    // std::cout << wallHoleX << " " << wallHoleY << std::endl;
-
-    for ( size_t i = (orientation ? x : y);
-          i < (orientation ? width : height) + 1; i++ )
+    if ( (x2 - x1) < 2 || (y2 - y1) < 2 )
     {
-        if ( orientation )
-        {
-            if ( i != wallHoleX )
-                gBoard[wallHoleY][i] = GWALL;
-        }
-        else
-        {
-            if ( i != wallHoleY )
-                gBoard[i][wallHoleX] = GWALL;
-        }
+        return;
     }
 
-    x--, y--, width += 2, height += 2;
-    randomWall(x, y, wallHoleX + 1, wallHoleY + 1, !orientation);
-    randomWall(wallHoleX, y, width - wallHoleX,
-               wallHoleY + 1, !orientation);
-    randomWall(x, wallHoleY, wallHoleX + 1,
-               height - wallHoleY, !orientation);
-    randomWall(wallHoleX, wallHoleY, width - wallHoleX,
-               height - wallHoleY, !orientation);
+    int x = x1 + 1 + rand() % (x2 - x1 - 1);
+    int y = y1 + 1 + rand() % (y2 - y1 - 1);
+
+    for ( int i = x1; i <= x2; i++ )
+        gBoard[i][y] = GWALL;
+    for ( int i = y1; i <= y2; i++ )
+        gBoard[x][i] = GWALL;
+
+    CreateMaze(board, x1, y1, x - 1, y - 1);
+    CreateMaze(board, x + 1, y + 1, x2, y2);
+    CreateMaze(board, x + 1, y1, x2, y - 1);
+    CreateMaze(board, x1, y + 1, x - 1, y2);
+
+    int r[4] = {0};
+    r[rand() % 4] = 1;
+
+    for ( int i = 0; i < 4; i++ )
+    {
+        if ( r[i] == 0 )
+        {
+            int rx = x;
+            int ry = y;
+            switch ( i )
+            {
+            case 0:
+                do
+                {
+                    rx = x1 + rand() % (x - x1);
+                } while ( (gBoard[rx - 1][ry] == GNOTHING) + (gBoard[rx + 1][ry] == GNOTHING) + (gBoard[rx][ry - 1] == GNOTHING) + (gBoard[rx][ry + 1] == GNOTHING) > 2 );
+                // } while ( (gBoard[rx - 1][ry] == GWALL) + (gBoard[rx + 1][ry] == GWALL) + (gBoard[rx][ry - 1] == GWALL) + (gBoard[rx][ry + 1] == GWALL) > 2 );
+                break;
+
+            case 1:
+                do
+                {
+                    ry = y + 1 + rand() % (y2 - y);
+                } while ( (gBoard[rx - 1][ry] == GNOTHING) + (gBoard[rx + 1][ry] == GNOTHING) + (gBoard[rx][ry - 1] == GNOTHING) + (gBoard[rx][ry + 1] == GNOTHING) > 2 );
+                // } while ( (gBoard[rx - 1][ry] == GWALL) + (gBoard[rx + 1][ry] == GWALL) + (gBoard[rx][ry - 1] == GWALL) + (gBoard[rx][ry + 1] == GWALL) > 2 );
+                break;
+
+            case 2:
+                do
+                {
+                    rx = x + 1 + rand() % (x2 - x);
+                } while ( (gBoard[rx - 1][ry] == GNOTHING) + (gBoard[rx + 1][ry] == GNOTHING) + (gBoard[rx][ry - 1] == GNOTHING) + (gBoard[rx][ry + 1] == GNOTHING) > 2 );
+                // } while ( (gBoard[rx - 1][ry] == GWALL) + (gBoard[rx + 1][ry] == GWALL) + (gBoard[rx][ry - 1] == GWALL) + (gBoard[rx][ry + 1] == GWALL) > 2 );
+                break;
+
+            case 3:
+                do
+                {
+                    ry = y1 + rand() % (y - y1);
+                } while ( (gBoard[rx - 1][ry] == GNOTHING) + (gBoard[rx + 1][ry] == GNOTHING) + (gBoard[rx][ry - 1] == GNOTHING) + (gBoard[rx][ry + 1] == GNOTHING) > 2 );
+                // } while ( (gBoard[rx - 1][ry] == GWALL) + (gBoard[rx + 1][ry] == GWALL) + (gBoard[rx][ry - 1] == GWALL) + (gBoard[rx][ry + 1] == GWALL) > 2 );
+                break;
+
+            default:
+                break;
+            }
+            gBoard[rx][ry] = GNOTHING;
+        }
+    }
 }
+// void fillBoard()
+// //==================================================================
+// {
+//     gBoard = new std::string *[GHEIGHT];
+//     for ( int i = 0; i < GHEIGHT; i++ )
+//     {
+//         gBoard[i] = new std::string[GWIDTH];
+//         for ( int j = 0; j < GWIDTH; j++ )
+//         {
+//             gBoard[i][j] = GWALL;
+//         }
+//     }
+
+//     mazeWalk(gBoard);
+// }
+
+// //******************************************************************
+// //
+// // * pickup start position and start recursion
+// //==================================================================
+// void mazeWalk(std::string **board)
+// //==================================================================
+// {
+//     // Implement Determination of start position and make start of recursion
+//     /*Please implement your code here*/
+
+//     srand(time(NULL));
+//     Position start(1, 1);
+
+//     mazeStep(board, start);
+
+//     /************************************************************************/
+// }
+
+// //******************************************************************
+// //
+// // * Recursion part (Be creative)
+// //==================================================================
+// void mazeStep(std::string **board, Position pos)
+// //==================================================================
+// {
+//     // Recursively generate the maze, Be Creative!!
+//     /* Please implement your code here*/
+
+//     board[pos.y][pos.x] = GNOTHING;
+
+//     std::vector<int> directions = {0, 1, 2, 3};                // up, down, left, right
+//     std::random_shuffle(directions.begin(), directions.end()); // random
+
+//     for ( int direction : directions )
+//     {
+//         Position nextPos(pos.x, pos.y);
+//         if ( direction == 0 || direction == 1 || direction == 2 || direction == 3 )
+//         {
+//             if ( direction == 0 )
+//             {
+//                 if ( pos.y == 1 || board[pos.y - 2][pos.x] == GNOTHING )
+//                 { // 走過
+//                     continue;
+//                 }
+//                 board[pos.y - 1][pos.x] = GNOTHING; // change point type
+//                 nextPos.y -= 2;
+//                 mazeStep(board, nextPos);
+//             }
+//             else if ( direction == 1 )
+//             {
+//                 if ( pos.y == GHEIGHT - 2 || board[pos.y + 2][pos.x] == GNOTHING )
+//                 { // 走過
+//                     continue;
+//                 }
+//                 board[pos.y + 1][pos.x] = GNOTHING; // change point type
+//                 nextPos.y += 2;
+//                 mazeStep(board, nextPos);
+//                 break;
+//             }
+//             else if ( direction == 2 )
+//             {
+//                 if ( pos.x == 1 || board[pos.y][pos.x - 2] == GNOTHING )
+//                 { // 走過
+//                     continue;
+//                 }
+//                 board[pos.y][pos.x - 1] = GNOTHING; // change point type
+//                 nextPos.x -= 2;
+//                 mazeStep(board, nextPos);
+//                 break;
+//             }
+//             else if ( direction == 3 )
+//             {
+//                 if ( pos.x == GWIDTH - 2 || board[pos.y][pos.x + 2] == GNOTHING )
+//                 { // 走過
+//                     continue;
+//                 }
+//                 board[pos.y][pos.x + 1] = GNOTHING; // change point type
+//                 nextPos.x += 2;
+//                 mazeStep(board, nextPos);
+//                 break;
+//             }
+//         }
+//     }
+
+//     /************************************************************************/
+// }
