@@ -4,7 +4,7 @@
  *  Author: 鄭健廷 (B11130225@mail.ntust.edu.tw)
  *  Create Date: 2023/05/10 15:02:27
  *  Editor: 鄭健廷 (B11130225@mail.ntust.edu.tw)
- *  Update Date: 2023/05/14 22:13:18
+ *  Update Date: 2023/05/14 22:30:34
  *  Description: 本輸入方向移動功能，w s a d 移動腳色上下左右，
                  空白改變腳色站立之地板字元，到T上可以增加經驗，
                  ESC是離開畫面。同時更新圖版上的資訊。
@@ -647,28 +647,28 @@ void CreateMaze(char **board, int x1, int y1, int x2, int y2)
                 do
                 {
                     rx = x1 + rand() % (x - x1);
-                } while ( (gBoard[rx - 1][ry] == GNOTHING) + (gBoard[rx + 1][ry] == GNOTHING) + (gBoard[rx][ry - 1] == GNOTHING) + (gBoard[rx][ry + 1] == GNOTHING) > 2 );
+                } while ( (gBoard[rx - 1][ry] == GWALL) + (gBoard[rx + 1][ry] == GWALL) + (gBoard[rx][ry - 1] == GWALL) + (gBoard[rx][ry + 1] == GWALL) > 2 );
                 break;
 
             case 1:
                 do
                 {
                     ry = y + 1 + rand() % (y2 - y);
-                } while ( (gBoard[rx - 1][ry] == GNOTHING) + (gBoard[rx + 1][ry] == GNOTHING) + (gBoard[rx][ry - 1] == GNOTHING) + (gBoard[rx][ry + 1] == GNOTHING) > 2 );
+                } while ( (gBoard[rx - 1][ry] == GWALL) + (gBoard[rx + 1][ry] == GWALL) + (gBoard[rx][ry - 1] == GWALL) + (gBoard[rx][ry + 1] == GWALL) > 2 );
                 break;
 
             case 2:
                 do
                 {
                     rx = x + 1 + rand() % (x2 - x);
-                } while ( (gBoard[rx - 1][ry] == GNOTHING) + (gBoard[rx + 1][ry] == GNOTHING) + (gBoard[rx][ry - 1] == GNOTHING) + (gBoard[rx][ry + 1] == GNOTHING) > 2 );
+                } while ( (gBoard[rx - 1][ry] == GWALL) + (gBoard[rx + 1][ry] == GWALL) + (gBoard[rx][ry - 1] == GWALL) + (gBoard[rx][ry + 1] == GWALL) > 2 );
                 break;
 
             case 3:
                 do
                 {
                     ry = y1 + rand() % (y - y1);
-                } while ( (gBoard[rx - 1][ry] == GNOTHING) + (gBoard[rx + 1][ry] == GNOTHING) + (gBoard[rx][ry - 1] == GNOTHING) + (gBoard[rx][ry + 1] == GNOTHING) > 2 );
+                } while ( (gBoard[rx - 1][ry] == GWALL) + (gBoard[rx + 1][ry] == GWALL) + (gBoard[rx][ry - 1] == GWALL) + (gBoard[rx][ry + 1] == GWALL) > 2 );
                 break;
 
             default:
