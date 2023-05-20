@@ -4,26 +4,26 @@
  *  Author: 鄭健廷 (B11130225@mail.ntust.edu.tw)
  *  Create Date: 2023/05/10 15:02:27
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/05/20 17:49:29
+ *  Update Date: 2023/05/20 18:51:03
  *  Description: 本輸入方向移動功能，w s a d 移動腳色上下左右，
                  空白改變腳色站立之地板字元，到T上可以增加經驗，
                  ESC是離開畫面。同時更新圖版上的資訊。
  */
 
 #include "main.hpp"
-#include "Creature.hpp"
 #include "Hero.hpp"
+#include "creature/CreatureB.hpp"
+#include "creature/CreatureS.hpp"
 
 #include <fstream>
 #include <string>
 #include <vector>
 
-Hero gHero(2, 2);
-
-// Constent value
+// Icon Settings
 const char GWALL = 'O';
 const char GNOTHING = ' ';
 
+// Board Settings
 int GWIDTH = -1;
 int GHEIGHT = -1;
 const int MIN_SIZE = 4;
@@ -49,8 +49,6 @@ enum ValidInput
     INVALID,
 };
 
-Creature gCreature;
-
 // function declare
 // 偵測輸入狀態
 void keyUpdate(bool key[]);
@@ -69,6 +67,8 @@ void update(bool key[]);
 void saveMap();
 void loadMap();
 
+Hero gHero(2, 2);
+std::vector<ICreature *> gCreatures;
 std::vector<Trigger *> gTriggers;
 
 int main(int argc, char **argv)
@@ -293,13 +293,24 @@ void setupBoard(int rowN, int colN)
         }
     };
 
+    // Create Hero
     Position hPos = getValidRandomPos();
     validFlags[hPos.y][hPos.x] = false;
     gHero.setPos(hPos);
 
-    Position cPos = getValidRandomPos();
-    validFlags[cPos.y][cPos.x] = false;
-    gCreature.setPos(cPos);
+    // Create Creature S
+    Position csPos = getValidRandomPos();
+    validFlags[csPos.y][csPos.x] = false;
+    ICreature *creatureS = new CreatureS();
+    creatureS->setPos(csPos);
+    gCreatures.push_back(creatureS);
+
+    // Create Creature B
+    Position cbPos = getValidRandomPos();
+    validFlags[cbPos.y][cbPos.x] = false;
+    ICreature *creatureB = new CreatureB();
+    creatureB->setPos(cbPos);
+    gCreatures.push_back(creatureB);
 
     for ( int i = 0; i < 2; i++ )
     {
@@ -332,16 +343,19 @@ void draw()
         }
     }
 
-    // Draw two triggers using for loop on drawBoard
-
+    // Draw triggers using for loop on drawBoard
     for ( int i = 0; i < gTriggers.size(); i++ )
     {
         Position t = gTriggers[i]->getPos();
         drawBoard[t.y][t.x] = gTriggers[i]->getIcon();
     }
 
-    Position c = gCreature.getPos();
-    drawBoard[c.y][c.x] = gCreature.getIcon();
+    // Draw creatures using for loop on drawBoard
+    for ( int i = 0; i < gCreatures.size(); i++ )
+    {
+        Position c = gCreatures[i]->getPos();
+        drawBoard[c.y][c.x] = gCreatures[i]->getIcon();
+    }
 
     // Update the hero information
     Position h = gHero.getPos();
@@ -429,14 +443,17 @@ void update(bool key[])
         gHero.move(delta);
     }
 
-    // Manipulate update of two triggers using while loop
-
+    // Manipulate update of triggers using while loop
     for ( int i = 0; i < gTriggers.size(); i++ )
     {
         gTriggers[i]->update(gHero);
     }
 
-    gCreature.update(gHero);
+    // Manipulate update of triggers using while loop
+    for ( int i = 0; i < gCreatures.size(); i++ )
+    {
+        gCreatures[i]->update(gHero);
+    }
     draw();
     drawInfo();
 }
@@ -473,7 +490,14 @@ void saveMap()
     oStream << gHero.getPos() << " " << gHero.getHP() << " "
             << gHero.getLevel() << " " << gHero.getExp() << " "
             << gHero.getMaxExp() << std::endl;
-    oStream << gCreature.getPos() << std::endl;
+
+    oStream << gCreatures.size() << std::endl;
+    for ( int i = 0; i < gCreatures.size(); i++ )
+    {
+        oStream << static_cast<int>(gCreatures[i]->getType()) << " "
+                << gCreatures[i]->getPos() << std::endl;
+    }
+
     oStream << gTriggers.size() << std::endl;
     for ( int i = 0; i < gTriggers.size(); i++ )
     {
@@ -514,6 +538,10 @@ void loadMap()
         delete gTriggers[i];
     gTriggers.clear();
 
+    for ( int i = 0; i < gCreatures.size(); i++ )
+        delete gCreatures[i];
+    gCreatures.clear();
+
     iStream >> GWIDTH >> GHEIGHT;
 
     char _c;
@@ -540,8 +568,33 @@ void loadMap()
     gHero.setExp(exp);
     gHero.SetMaxExp(maxExp);
 
-    iStream >> pos;
-    gCreature.setPos(pos);
+    int creatureN;
+    iStream >> creatureN;
+    for ( int i = 0; i < creatureN; i++ )
+    {
+        int typeN;
+        iStream >> typeN;
+        TCreature type = static_cast<TCreature>(typeN);
+        iStream >> pos;
+        ICreature *creature = nullptr;
+        switch ( type )
+        {
+        case TCreature::kS:
+        {
+            creature = new CreatureS();
+            break;
+        }
+        case TCreature::kB:
+        {
+            creature = new CreatureB();
+            break;
+        }
+        default:
+            throw std::runtime_error("Load File Error: Unknown creature type");
+        }
+        creature->setPos(pos);
+        gCreatures.push_back(creature);
+    }
 
     int triggerN;
     iStream >> triggerN;
