@@ -30,7 +30,8 @@
     "iostream": "cpp",
     "ostream": "cpp",
     "fstream": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "stdexcept": "cpp"
   },
   "C_Cpp.default.configurationProvider": "go2sh.cmake-integration"
 }
