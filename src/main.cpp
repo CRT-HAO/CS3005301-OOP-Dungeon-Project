@@ -4,7 +4,7 @@
  *  Author: 鄭健廷 (B11130225@mail.ntust.edu.tw)
  *  Create Date: 2023/05/10 15:02:27
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/05/20 18:51:03
+ *  Update Date: 2023/05/26 01:48:12
  *  Description: 本輸入方向移動功能，w s a d 移動腳色上下左右，
                  空白改變腳色站立之地板字元，到T上可以增加經驗，
                  ESC是離開畫面。同時更新圖版上的資訊。
@@ -69,7 +69,7 @@ void loadMap();
 
 Hero gHero(2, 2);
 std::vector<ICreature *> gCreatures;
-std::vector<Trigger *> gTriggers;
+std::vector<IItem *> gItems;
 
 int main(int argc, char **argv)
 {
@@ -312,14 +312,22 @@ void setupBoard(int rowN, int colN)
     creatureB->setPos(cbPos);
     gCreatures.push_back(creatureB);
 
+    // Create 2 Triggers
     for ( int i = 0; i < 2; i++ )
     {
         Trigger *trigger = new Trigger();
         Position tPos = getValidRandomPos();
         validFlags[tPos.y][tPos.x] = false;
         trigger->setPos(tPos);
-        gTriggers.push_back(trigger);
+        gItems.push_back(trigger);
     }
+
+    // Create Switch
+    Position swPos = getValidRandomPos();
+    validFlags[swPos.y][swPos.x] = false;
+    IItem *sw = new Switch();
+    sw->setPos(swPos);
+    gItems.push_back(sw);
 }
 
 //******************************************************************
@@ -344,10 +352,10 @@ void draw()
     }
 
     // Draw triggers using for loop on drawBoard
-    for ( int i = 0; i < gTriggers.size(); i++ )
+    for ( int i = 0; i < gItems.size(); i++ )
     {
-        Position t = gTriggers[i]->getPos();
-        drawBoard[t.y][t.x] = gTriggers[i]->getIcon();
+        Position t = gItems[i]->getPos();
+        drawBoard[t.y][t.x] = gItems[i]->getIcon();
     }
 
     // Draw creatures using for loop on drawBoard
@@ -444,9 +452,9 @@ void update(bool key[])
     }
 
     // Manipulate update of triggers using while loop
-    for ( int i = 0; i < gTriggers.size(); i++ )
+    for ( int i = 0; i < gItems.size(); i++ )
     {
-        gTriggers[i]->update(gHero);
+        gItems[i]->update(gHero);
     }
 
     // Manipulate update of triggers using while loop
@@ -498,10 +506,14 @@ void saveMap()
                 << gCreatures[i]->getPos() << std::endl;
     }
 
-    oStream << gTriggers.size() << std::endl;
-    for ( int i = 0; i < gTriggers.size(); i++ )
+    oStream << gItems.size() << std::endl;
+    for ( int i = 0; i < gItems.size(); i++ )
     {
-        oStream << gTriggers[i]->getPos() << std::endl;
+        oStream << static_cast<int>(gItems[i]->getType()) << " "
+                << gItems[i]->getPos();
+        if ( gItems[i]->getType() == TItem::kSwitch )
+            oStream << " " << ((Switch *)(gItems[i]))->getOn();
+        oStream << std::endl;
     }
 
     oStream.close();
@@ -534,9 +546,9 @@ void loadMap()
     }
     delete[] gBoard;
 
-    for ( int i = 0; i < gTriggers.size(); i++ )
-        delete gTriggers[i];
-    gTriggers.clear();
+    for ( int i = 0; i < gItems.size(); i++ )
+        delete gItems[i];
+    gItems.clear();
 
     for ( int i = 0; i < gCreatures.size(); i++ )
         delete gCreatures[i];
@@ -600,10 +612,32 @@ void loadMap()
     iStream >> triggerN;
     for ( int i = 0; i < triggerN; i++ )
     {
+        int typeN;
+        iStream >> typeN;
+        TItem type = static_cast<TItem>(typeN);
         iStream >> pos;
-        Trigger *trigger = new Trigger();
-        trigger->setPos(pos);
-        gTriggers.push_back(trigger);
+        IItem *item = nullptr;
+        switch ( type )
+        {
+        case TItem::kSwitch:
+        {
+            Switch *sw = new Switch();
+            bool on = false;
+            iStream >> on;
+            sw->setOn(on);
+            item = sw;
+            break;
+        }
+        case TItem::kTrigger:
+        {
+            item = new Trigger();
+            break;
+        }
+        default:
+            throw std::runtime_error("Load File Error: Unknown item type");
+        }
+        item->setPos(pos);
+        gItems.push_back(item);
     }
 
     iStream.close();
