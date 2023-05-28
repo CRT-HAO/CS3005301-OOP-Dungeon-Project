@@ -8,7 +8,8 @@ set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include/)
 set(SRC_LIST
     ${PROJECT_SOURCE_DIR}/src/main.cpp
     ${PROJECT_SOURCE_DIR}/src/Hero.cpp
-    ${PROJECT_SOURCE_DIR}/src/Trigger.cpp
+    ${PROJECT_SOURCE_DIR}/src/item/Trigger.cpp
+    ${PROJECT_SOURCE_DIR}/src/item/Switch.cpp
 )
 
 if(WIN32)
