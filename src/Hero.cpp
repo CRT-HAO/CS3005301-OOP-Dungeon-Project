@@ -3,8 +3,8 @@
  *  Author: 張皓鈞 (B11030202@mail.ntust.edu.tw)
  *  Author: 鄭健廷 (B11130225@mail.ntust.edu.tw)
  *  Create Date: 2023/05/10 15:02:27
- *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/05/20 17:49:45
+ *  Editor: 鄭健廷 (B11130225@mail.ntust.edu.tw)
+ *  Update Date: 2023/06/04 00:59:02
  *  Description: Hero Class
  */
 
@@ -19,6 +19,6 @@ void Hero::move(Position delta)
         this->sPos = next;
     else
     {
-        std::cout << "Invalid location\n";
+        throw HeroException();
     }
 }
