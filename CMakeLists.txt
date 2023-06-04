@@ -24,13 +24,9 @@ if(APPLE)
     add_link_options(-framework WebKit)
 endif()
 
-# add_executable(${APP_NAME} ${SRC_LIST})
-add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE ${SRC_LIST})
-target_include_directories(${APP_NAME} PRIVATE ${INCLUDE_DIR} ${WEBVIEW_INCLUDE_DIR})
-
 if(WIN32)
-    set(WEBVIEW2_INCLUDE_DIR ${APP_NAME}/libs/webview2/build/native/include)
-    target_include_directories(${APP_NAME} PRIVATE ${WEBVIEW2_INCLUDE_DIR})
+    set(WEBVIEW2_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include/lib/webview2/build/native/include)
+    include_directories(${WEBVIEW2_INCLUDE_DIR})
 
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         # using GCC
@@ -39,6 +35,10 @@ if(WIN32)
 endif()
 
 set(WEBVIEW_INCLUDE_DIR ${APP_NAME}/libs/webview)
+
+# add_executable(${APP_NAME} ${SRC_LIST})
+add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE ${SRC_LIST})
+target_include_directories(${APP_NAME} PRIVATE ${INCLUDE_DIR} ${WEBVIEW_INCLUDE_DIR})
 
 set_target_properties(${APP_NAME} PROPERTIES
     BUNDLE True

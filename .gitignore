@@ -32,7 +32,7 @@
 *.app
 
 # CMake
-build/
+/build
 
 # macOS
 .DS_Store
