@@ -3,8 +3,8 @@
  *  Author: 張皓鈞 (B11030202@mail.ntust.edu.tw)
  *  Author: 鄭健廷 (B11130225@mail.ntust.edu.tw)
  *  Create Date: 2023/05/10 15:02:27
- *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/05/26 00:50:31
+ *  Editor: 鄭健廷 (B11130225@mail.ntust.edu.tw)
+ *  Update Date: 2023/06/04 00:52:02
  *  Description: 本輸入方向移動功能，w s a d 移動腳色上下左右，
                  空白改變腳色站立之地板字元，到T上可以增加經驗，
                  ESC是離開畫面。同時更新圖版上的資訊。

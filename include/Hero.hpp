@@ -3,13 +3,14 @@
  *  Author: 張皓鈞 (B11030202@mail.ntust.edu.tw)
  *  Author: 鄭健廷 (B11130225@mail.ntust.edu.tw)
  *  Create Date: 2023/05/10 15:02:27
- *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/05/20 17:49:01
+ *  Editor: 鄭健廷 (B11130225@mail.ntust.edu.tw)
+ *  Update Date: 2023/06/04 00:58:55
  *  Description: Hero Class
  */
 
 #pragma once
 
+#include "Exception.hpp"
 #include "Position.hpp"
 #include "main.hpp"
 

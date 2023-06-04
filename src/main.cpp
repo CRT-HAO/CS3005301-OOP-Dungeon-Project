@@ -3,8 +3,8 @@
  *  Author: 張皓鈞 (B11030202@mail.ntust.edu.tw)
  *  Author: 鄭健廷 (B11130225@mail.ntust.edu.tw)
  *  Create Date: 2023/05/10 15:02:27
- *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/05/26 01:48:12
+ *  Editor: 鄭健廷 (B11130225@mail.ntust.edu.tw)
+ *  Update Date: 2023/06/04 04:47:49
  *  Description: 本輸入方向移動功能，w s a d 移動腳色上下左右，
                  空白改變腳色站立之地板字元，到T上可以增加經驗，
                  ESC是離開畫面。同時更新圖版上的資訊。
@@ -408,47 +408,59 @@ void update(bool key[])
     system("CLS");
 
     Position delta;
-
-    // 是否有input
     bool hasInput = false;
-    if ( key[ValidInput::EW] )
+    try
     {
-        delta -= Position(0, 1);
-        hasInput = true;
-    }
-    else if ( key[ValidInput::ES] )
-    {
-        delta += Position(0, 1);
-        hasInput = true;
-    }
-    else if ( key[ValidInput::EA] )
-    {
-        delta = delta - Position(1, 0);
-        hasInput = true;
-    }
-    else if ( key[ValidInput::ED] )
-    {
-        delta = delta + Position(1, 0);
-        hasInput = true;
-    }
-    else
-    {
-        bool allInvalid = true;
-        for ( int i = 0; i < ValidInput::INVALID; i++ )
+        // 是否有input
+        if ( key[ValidInput::EW] )
         {
-            if ( key[i] )
-            {
-                allInvalid = false;
-                break;
-            }
+            delta -= Position(0, 1);
+            hasInput = true;
         }
-        if ( allInvalid )
-            std::cout << "invalid input\n";
-        ;
+        else if ( key[ValidInput::ES] )
+        {
+            delta += Position(0, 1);
+            hasInput = true;
+        }
+        else if ( key[ValidInput::EA] )
+        {
+            delta = delta - Position(1, 0);
+            hasInput = true;
+        }
+        else if ( key[ValidInput::ED] )
+        {
+            delta = delta + Position(1, 0);
+            hasInput = true;
+        }
+        else
+        {
+            bool allInvalid = true;
+            for ( int i = 0; i < ValidInput::INVALID; i++ )
+            {
+                if ( key[i] )
+                {
+                    allInvalid = false;
+                    break;
+                }
+            }
+            if ( allInvalid )
+                throw AllInvalid();
+        }
+    }
+    catch ( AllInvalid &a )
+    {
+        std::cout << a.what() << std::endl;
     }
     if ( hasInput )
     {
-        gHero.move(delta);
+        try
+        {
+            gHero.move(delta);
+        }
+        catch ( HeroException &e )
+        {
+            std::cout << e.what() << std::endl;
+        }
     }
 
     // Manipulate update of triggers using while loop
