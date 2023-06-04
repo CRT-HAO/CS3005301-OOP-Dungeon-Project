@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <title>Hello World</title>
-    <access uri="*" subdomains="true" />
 
     <script src="./js/pixi.min.js"></script>
     <script src="./js/jquery-3.6.4.min.js"></script>
@@ -25,68 +24,9 @@
 </head>
 
 <body>
-    <script type="text/javascript">
-        let app = new PIXI.Application({
-            width: 256,         // default: 800 宽度
-            height: 256,        // default: 600 高度
-            antialias: true,    // default: false 反锯齿
-            transparent: false, // default: false 透明度
-            resolution: 1       // default: 1 分辨率
-        }
-        );
+    <div id="view"></div>
 
-        app.renderer.background.color = 0xFFFFFF;
-        app.renderer.view.style.position = "absolute";
-        app.renderer.view.style.display = "block";
-        app.renderer.autoResize = true;
-        app.renderer.resize(window.innerWidth, window.innerHeight);
-
-        // document.body.appendChild(app.view);
-
-        // Create the sprite and add it to the stage
-        let sprite = PIXI.Sprite.from('image/github.png');
-        app.stage.addChild(sprite);
-
-        // Add a ticker callback to move the sprite back and forth
-        let elapsed = 0.0;
-        app.ticker.add((delta) => {
-            elapsed += delta;
-            sprite.x = 100.0 + Math.cos(elapsed / 50.0) * 100.0;
-        });
-
-        const block_size = 12;
-
-        // async function gameLoop() {
-        //     //Call this `gameLoop` function on the next screen refresh
-        //     //(which happens 60 times per second)
-        //     requestAnimationFrame(gameLoop);
-        // }
-
-        // //Start the loop
-        // gameLoop();
-
-
-        let timer = window.setInterval(async () => {
-            await render();
-            let view = await getView();
-            view.objects.forEach((object) => {
-                let e = $(`<div class="block"></div>`)
-                    .css('width', `${block_size}px`)
-                    .css('height', `${block_size}px`)
-                    .css('background-color', (object.asset == 2)
-                        ? '#000000'
-                        : 'gray')
-                    .css('top', `${block_size * object.position.y}px`)
-                    .css('left', `${block_size * object.position.x}px`);
-                $('body').append(e);
-            });
-        }, 33);
-
-
-        window.addEventListener("resize", () => {
-            app.renderer.resize(window.innerWidth, window.innerHeight);
-        });
-    </script>
+    <script src="./js/script.js"></script>
 </body>
 
 </html>
