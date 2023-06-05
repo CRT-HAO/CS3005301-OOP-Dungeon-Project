@@ -13,6 +13,7 @@ set(SRC_LIST
     ${PROJECT_SOURCE_DIR}/src/core/ObjectsManager.cpp
     ${PROJECT_SOURCE_DIR}/src/core/Position.cpp
     ${PROJECT_SOURCE_DIR}/src/core/PositionFloat.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/KeyInput.cpp
     ${PROJECT_SOURCE_DIR}/src/main.cpp
 )
 
