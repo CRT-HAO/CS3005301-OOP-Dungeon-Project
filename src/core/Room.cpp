@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:33:29
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/05/30 10:54:19
+ *  Update Date: 2023/06/05 20:37:58
  *  Description: Room Class
  */
 
@@ -80,7 +80,17 @@ void Room::setBlock(const Position &pos, Block *block)
     this->data[pos.y][pos.x] = block;
 }
 
-void Room::logic() {}
+void Room::logic(KeyInput *keyInput)
+{
+    if ( keyInput->isForward() )
+        this->pos.y -= 1;
+    if ( keyInput->isBackward() )
+        this->pos.y += 1;
+    if ( keyInput->isLeft() )
+        this->pos.x -= 1;
+    if ( keyInput->isRight() )
+        this->pos.x += 1;
+}
 
 void Room::render(View *view)
 {
@@ -93,7 +103,7 @@ void Room::render(View *view)
             Json data;
             data["type"] = "block";
             data["asset"] = static_cast<int>(j->getType());
-            view->addObject(pos, data);
+            view->addObject(pos + this->pos, data);
 
             pos.x += 1;
         }

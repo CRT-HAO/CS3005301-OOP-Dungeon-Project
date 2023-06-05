@@ -37,6 +37,7 @@
 const block_size = 12;
 
 let timer = window.setInterval(async () => {
+  await logic();
   await render();
   let view = await getView();
   $("#view").empty();
@@ -49,8 +50,26 @@ let timer = window.setInterval(async () => {
       .css("left", `${block_size * object.position.x}px`);
     $("#view").append(e);
   });
-}, 33);
+}, 16);
 
 window.addEventListener("resize", () => {
   app.renderer.resize(window.innerWidth, window.innerHeight);
 });
+
+setKey = (e, value) => {
+  let ascii,
+    key = e.key;
+  if (key.length == 1) {
+    ascii = key.charCodeAt(0);
+    if (ascii < 128 && e.ctrlKey) {
+      ascii = ascii & 0x1f;
+    }
+  }
+  if (typeof ascii == "number" && ascii < 128) {
+    setKeyInput(ascii, value);
+    // console.log(`ASCII code ${ascii} entered from keyboard`);
+  }
+};
+
+document.addEventListener("keydown", (e) => setKey(e, true), false);
+document.addEventListener("keyup", (e) => setKey(e, false), false);

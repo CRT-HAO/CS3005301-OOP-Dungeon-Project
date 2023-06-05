@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:11:06
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/05/30 10:54:09
+ *  Update Date: 2023/06/05 20:26:02
  *  Description: Room Class
  */
 
@@ -38,7 +38,7 @@ namespace Dungeon
 
         void setBlock(const Position &pos, Block *block);
 
-        virtual void logic() override;
+        virtual void logic(KeyInput *keyInput) override;
         virtual void render(View *view) override;
     };
 
