@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 19:36:38
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/05 20:23:44
+ *  Update Date: 2023/06/06 02:06:37
  *  Description: Key Input Class
  */
 
@@ -31,12 +31,12 @@ namespace Dungeon
         inline bool pressed(char key) const { return this->keys.at(key); };
 
     public:
-        inline bool isForward() const
+        inline bool isUp() const
         {
             return (this->keys.at('w') || this->keys.at('W'));
         }
 
-        inline bool isBackward() const
+        inline bool isDown() const
         {
             return (this->keys.at('s') || this->keys.at('S'));
         }

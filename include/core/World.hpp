@@ -1,33 +1,34 @@
 /**
- *  File: ObjectsManager.hpp
+ *  File: World.hpp
  *  Author: 張皓鈞(HAO) m831718@gmail.com
- *  Create Date: 2023/05/30 10:21:55
+ *  Create Date: 2023/06/05 23:28:39
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/05 23:30:59
- *  Description: Objects Manager
+ *  Update Date: 2023/06/06 01:52:36
+ *  Description: World Class
  */
 
 #pragma once
 
 #include "Object.hpp"
-#include "View.hpp"
+#include "Room.hpp"
 
 #include <vector>
 
 namespace Dungeon
 {
 
-    class ObjectsManager : public Object
+    class World : public Object
     {
     private:
-        std::vector<Object *> objects;
+        std::vector<Room *> rooms;
 
     public:
-        ObjectsManager();
+        World();
 
     public:
+        const std::vector<Room *> &getRooms();
         void clear();
-        void addObject(Object *);
+        void addRoom(Room *room);
 
     public:
         virtual void logic(KeyInput *keyInput) override;

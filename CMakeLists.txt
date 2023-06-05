@@ -10,10 +10,14 @@ set(APP_NAME ${CMAKE_PROJECT_NAME})
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include/)
 set(SRC_LIST
     ${PROJECT_SOURCE_DIR}/src/core/Room.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/World.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/Player.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/Camera.cpp
     ${PROJECT_SOURCE_DIR}/src/core/ObjectsManager.cpp
     ${PROJECT_SOURCE_DIR}/src/core/Position.cpp
     ${PROJECT_SOURCE_DIR}/src/core/PositionFloat.cpp
     ${PROJECT_SOURCE_DIR}/src/core/KeyInput.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/Game.cpp
     ${PROJECT_SOURCE_DIR}/src/main.cpp
 )
 
@@ -37,8 +41,9 @@ endif()
 
 set(WEBVIEW_INCLUDE_DIR ${APP_NAME}/libs/webview)
 
-# add_executable(${APP_NAME} ${SRC_LIST})
-add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE ${SRC_LIST})
+add_executable(${APP_NAME} ${SRC_LIST})
+
+# add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE ${SRC_LIST})
 target_include_directories(${APP_NAME} PRIVATE ${INCLUDE_DIR} ${WEBVIEW_INCLUDE_DIR})
 
 set_target_properties(${APP_NAME} PROPERTIES

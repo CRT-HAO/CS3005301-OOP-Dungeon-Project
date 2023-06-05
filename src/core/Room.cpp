@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:33:29
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/05 20:37:58
+ *  Update Date: 2023/06/06 02:41:49
  *  Description: Room Class
  */
 
@@ -13,7 +13,7 @@
 
 using namespace Dungeon;
 
-Room::Room(const PositionFloat &pos, size_t width, size_t height, bool autoGen)
+Room::Room(const Position &pos, size_t width, size_t height, bool autoGen)
     : pos(pos), width(width), height(height)
 {
     this->data.resize(height, std::vector<Block *>(width, nullptr));
@@ -24,7 +24,7 @@ Room::Room(const PositionFloat &pos, size_t width, size_t height, bool autoGen)
     {
         for ( p.x = 0; p.x < width; ++p.x )
         {
-            this->setBlock(pos, new Ground());
+            this->setBlock(p, new Ground());
         }
     }
 
@@ -49,23 +49,32 @@ Room::~Room()
 
 void Room::autoGen()
 {
-    Position pos;
-    for ( pos.y = 0; pos.y < height; ++pos.y )
+    Position p;
+    for ( p.y = 0; p.y < height; ++p.y )
     {
-        for ( pos.x = 0; pos.x < width; ++pos.x )
+        for ( p.x = 0; p.x < width; ++p.x )
         {
-            if ( pos.y == 0 )
-                this->setBlock(pos, new Wall());
-            else if ( pos.x == 0 )
-                this->setBlock(pos, new Wall());
-            else if ( pos.y == height - 1 )
-                this->setBlock(pos, new Wall());
-            else if ( pos.x == width - 1 )
-                this->setBlock(pos, new Wall());
+            if ( p.y == 0 )
+                this->setBlock(p, new Wall());
+            else if ( p.x == 0 )
+                this->setBlock(p, new Wall());
+            else if ( p.y == height - 1 )
+                this->setBlock(p, new Wall());
+            else if ( p.x == width - 1 )
+                this->setBlock(p, new Wall());
             else
-                this->setBlock(pos, new Ground());
+                this->setBlock(p, new Ground());
         }
     }
+}
+
+Block *Room::getBlock(const Position &pos)
+{
+    if ( pos.y < 0 || pos.y > this->data.size() - 1 ||
+         pos.x < 0 || pos.x > this->data[pos.y].size() - 1 )
+        return nullptr;
+
+    return this->data[pos.y][pos.x];
 }
 
 void Room::setBlock(const Position &pos, Block *block)
@@ -80,33 +89,35 @@ void Room::setBlock(const Position &pos, Block *block)
     this->data[pos.y][pos.x] = block;
 }
 
+Block *Room::getBlockByWorldPos(const Position &worldPos)
+{
+    Position p = worldPos - this->pos;
+    if ( p.y < 0 || p.y > this->data.size() - 1 ||
+         p.x < 0 || p.x > this->data[p.y].size() - 1 )
+        return nullptr;
+
+    return this->data[p.y][p.x];
+}
+
 void Room::logic(KeyInput *keyInput)
 {
-    if ( keyInput->isForward() )
-        this->pos.y -= 1;
-    if ( keyInput->isBackward() )
-        this->pos.y += 1;
-    if ( keyInput->isLeft() )
-        this->pos.x -= 1;
-    if ( keyInput->isRight() )
-        this->pos.x += 1;
 }
 
 void Room::render(View *view)
 {
-    PositionFloat pos;
+    Position p;
     for ( const auto &i : this->data )
     {
-        pos.x = 0;
+        p.x = 0;
         for ( const auto &j : i )
         {
             Json data;
             data["type"] = "block";
             data["asset"] = static_cast<int>(j->getType());
-            view->addObject(pos + this->pos, data);
+            view->addObject(p + this->pos, data);
 
-            pos.x += 1;
+            p.x += 1;
         }
-        pos.y += 1;
+        p.y += 1;
     }
 }

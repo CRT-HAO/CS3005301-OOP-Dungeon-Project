@@ -14,17 +14,29 @@
             padding: 0;
             width: 200vw;
             height: 200vh;
+            overflow: hidden;
+        }
+
+        body.debug {
+            overflow: scroll;
         }
 
         .block {
             position: absolute;
             display: block;
         }
+
+        .view {
+            display: inline;
+            position: relative;
+            top: 50%;
+            left: 50%;
+        }
     </style>
 </head>
 
 <body>
-    <div id="view"></div>
+    <div class="view" id="view"></div>
 
     <script src="./js/script.js"></script>
 </body>

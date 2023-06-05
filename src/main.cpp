@@ -1,61 +1,23 @@
-#include "core/KeyInput.hpp"
-#include "core/ObjectsManager.hpp"
-#include "core/Room.hpp"
-#include "core/View.hpp"
-#include "gui/WebViewUtil.hpp"
+/**
+ *  File: main.cpp
+ *  Author: 張皓鈞(HAO) m831718@gmail.com
+ *  Create Date: 2023/05/20 17:54:59
+ *  Editor: 張皓鈞(HAO) m831718@gmail.com
+ *  Update Date: 2023/06/06 02:19:16
+ *  Description: Program Entry Point
+ */
 
-#include "lib/webview/webview.h"
+#include "core/Game.hpp"
 
 #include <iostream>
 
 using namespace std;
 using namespace Dungeon;
 
-webview::webview w(true, nullptr);
-ObjectsManager manager;
-View view;
-KeyInput keyInput;
-
-std::string logic(string args)
-{
-    manager.logic(&keyInput);
-    return "\"Success\"";
-}
-
-std::string render(string args)
-{
-    manager.render(&view);
-    return "\"Success\"";
-}
-
-std::string getView(string args)
-{
-    return view.data.dump();
-}
-
-std::string setKeyInput(string args)
-{
-    Json argsData = Json::parse(args);
-    keyInput.setKey(argsData[0].get<char>(), argsData[1].get<bool>());
-
-    return "\"Success\"";
-}
-
 int main(int argc, char *argv[])
 {
-    Room *room = new Room(Position(0, 0));
-    manager.addObject(room);
-
-    w.set_title("Basic Example");
-    w.set_size(480, 320, WEBVIEW_HINT_NONE);
-    w.navigate(WebViewUtil::getLocalPath("app.html"));
-    w.bind("logic", logic);
-    w.bind("render", render);
-    w.bind("getView", getView);
-    w.bind("setKeyInput", setKeyInput);
-    w.run();
-
-    manager.render(&view);
+    Game::getInstance()->init();
+    Game::getInstance()->runWebView();
 
     return 0;
 }

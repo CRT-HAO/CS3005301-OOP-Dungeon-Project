@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:01:41
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/04 20:22:02
+ *  Update Date: 2023/06/05 23:14:20
  *  Description: View
  */
 
@@ -28,6 +28,10 @@ namespace Dungeon
         View()
         {
             this->data["background"]["color"] = "#000000";
+            this->data["camera"] = {
+                {"x", 0.0},
+                {"y", 0.0},
+            };
             this->clear();
         }
 
@@ -40,6 +44,12 @@ namespace Dungeon
         inline void setBackgroundColor(const std::string &color)
         {
             this->data["background"]["color"] = color;
+        }
+
+        inline void setCamera(const PositionFloat &pos)
+        {
+            this->data["camera"]["x"] = pos.x;
+            this->data["camera"]["y"] = pos.y;
         }
 
         inline void addObject(const PositionFloat &pos, const Json &data)

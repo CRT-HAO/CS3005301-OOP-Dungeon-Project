@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:11:06
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/05 20:26:02
+ *  Update Date: 2023/06/06 02:40:34
  *  Description: Room Class
  */
 
@@ -24,19 +24,22 @@ namespace Dungeon
     {
     private:
         std::vector<std::vector<Block *>> data;
-        PositionFloat pos;
+        Position pos;
         size_t width;
         size_t height;
 
     public:
-        Room(const PositionFloat &pos, size_t width = 10, size_t height = 10,
+        Room(const Position &pos, size_t width = 10, size_t height = 10,
              bool autoGen = true);
         ~Room();
 
     public:
         void autoGen();
 
+        Block *getBlock(const Position &pos);
         void setBlock(const Position &pos, Block *block);
+
+        Block *getBlockByWorldPos(const Position &worldPos);
 
         virtual void logic(KeyInput *keyInput) override;
         virtual void render(View *view) override;

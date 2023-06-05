@@ -34,22 +34,44 @@
 // //Start the loop
 // gameLoop();
 
-const block_size = 12;
+const block_size = 24;
 
 let timer = window.setInterval(async () => {
-  await logic();
-  await render();
-  let view = await getView();
+  apiUpdate();
+  let view = await apiGetView();
   $("#view").empty();
   view.objects.forEach((object) => {
-    let e = $(`<div class="block"></div>`)
-      .css("width", `${block_size}px`)
-      .css("height", `${block_size}px`)
-      .css("background-color", object.asset == 2 ? "#000000" : "gray")
-      .css("top", `${block_size * object.position.y}px`)
-      .css("left", `${block_size * object.position.x}px`);
-    $("#view").append(e);
+    switch (object.type) {
+      case "block":
+        {
+          let e = $(`<div class="block"></div>`)
+            .css("width", `${block_size}px`)
+            .css("height", `${block_size}px`)
+            .css("background-color", object.asset == 2 ? "#000000" : "gray")
+            .css("top", `${block_size * object.position.y}px`)
+            .css("left", `${block_size * object.position.x}px`);
+          $("#view").append(e);
+        }
+        break;
+      case "player":
+        {
+          let e = $(`<div class="block"></div>`)
+            .css("width", `${block_size}px`)
+            .css("height", `${block_size}px`)
+            .css("background-color", "red")
+            .css("top", `${block_size * object.position.y}px`)
+            .css("left", `${block_size * object.position.x}px`);
+          $("#view").append(e);
+        }
+        break;
+    }
   });
+
+  let originX = $(window).width() / 2;
+  let originY = $(window).height() / 2;
+  let cameraX = originX + view.camera.x * block_size;
+  let cameraY = originY + view.camera.y * block_size;
+  $("html, body").scrollTop(cameraY).scrollLeft(cameraX);
 }, 16);
 
 window.addEventListener("resize", () => {
@@ -66,7 +88,7 @@ setKey = (e, value) => {
     }
   }
   if (typeof ascii == "number" && ascii < 128) {
-    setKeyInput(ascii, value);
+    apiSetKeyInput(ascii, value);
     // console.log(`ASCII code ${ascii} entered from keyboard`);
   }
 };
