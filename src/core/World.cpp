@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 02:58:48
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/06 16:59:24
+ *  Update Date: 2023/06/07 00:32:59
  *  Description: World Class
  */
 
@@ -26,6 +26,12 @@ const std::vector<Room *> &World::getRooms()
 void World::addRoom(Room *room)
 {
     this->rooms.push_back(room);
+}
+
+void World::init()
+{
+    for ( Room *r : this->rooms )
+        r->init();
 }
 
 void World::logic(KeyInput *keyInput, sf::Time &dt)

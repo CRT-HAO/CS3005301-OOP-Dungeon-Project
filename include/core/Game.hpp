@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:14:48
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/06 16:53:11
+ *  Update Date: 2023/06/07 01:06:49
  *  Description: Game Class
  */
 
@@ -11,6 +11,7 @@
 
 #include "Camera.hpp"
 #include "KeyInput.hpp"
+#include "ObjectManager.hpp"
 #include "Player.hpp"
 #include "Room.hpp"
 #include "World.hpp"
@@ -33,6 +34,8 @@ namespace Dungeon
         sf::Time dt;
 
         KeyInput keyInput;
+
+        ObjectManager objectManager;
         World world;
         Player player{&world};
         Camera camera;

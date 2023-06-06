@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:36:02
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/06 17:07:01
+ *  Update Date: 2023/06/07 01:28:56
  *  Description: Game Class
  */
 
@@ -15,9 +15,6 @@ Game *Game::instance = nullptr;
 
 Game::Game()
 {
-    int width = 41, height = 41;
-    Room *room = new Room(Position(width / -2, height / -2), width, height);
-    this->world.addRoom(room);
 }
 
 Game *Game::getInstance()
@@ -38,6 +35,23 @@ void Game::init()
 
     // FPS 限制
     window.setFramerateLimit(144);
+
+    /**
+     * Initialize game data
+     */
+    objectManager.clear();
+
+    int width = 11, height = 11;
+    Room *room = new Room();
+    room->autoGen(sf::Vector2f(width / -2, height / -2), width, height);
+    this->world.addRoom(room);
+    objectManager.addObject(&world);
+
+    objectManager.addObject(&player);
+    objectManager.addObject(&camera);
+
+    // Init
+    objectManager.init();
 }
 
 void Game::update()
@@ -74,16 +88,12 @@ void Game::update()
     /**
      * Logic
      */
-    this->world.logic(keyInputPtr, this->dt);
-    this->player.logic(keyInputPtr, this->dt);
-    this->camera.logic(keyInputPtr, this->dt);
+    this->objectManager.logic(&this->keyInput, this->dt);
 
     /**
      * Render
      */
-    this->world.render(this->window);
-    this->player.render(this->window);
-    this->camera.render(this->window);
+    this->objectManager.render(this->window);
 
     // Update camera focus on player
     this->camera.focus(&this->player);
@@ -99,6 +109,7 @@ void Game::update()
 
 void Game::run()
 {
+    this->init();
     while ( window.isOpen() )
         this->update();
 }

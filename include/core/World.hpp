@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:28:39
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/06 15:37:33
+ *  Update Date: 2023/06/07 00:32:29
  *  Description: World Class
  */
 
@@ -31,6 +31,7 @@ namespace Dungeon
         void addRoom(Room *room);
 
     public:
+        virtual void init() override;
         virtual void logic(KeyInput *keyInput, sf::Time &dt) override;
         virtual void render(sf::RenderWindow &window) override;
     };

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.21)
 
 project(Dungeon C CXX)
 
@@ -15,15 +15,19 @@ set(APP_NAME ${CMAKE_PROJECT_NAME})
 
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include/)
 set(SRC_LIST
+    ${PROJECT_SOURCE_DIR}/src/core/Entity.cpp
     ${PROJECT_SOURCE_DIR}/src/core/Room.cpp
     ${PROJECT_SOURCE_DIR}/src/core/World.cpp
     ${PROJECT_SOURCE_DIR}/src/core/Player.cpp
     ${PROJECT_SOURCE_DIR}/src/core/Camera.cpp
-    ${PROJECT_SOURCE_DIR}/src/core/ObjectsManager.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/ObjectManager.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/EntityManager.cpp
     ${PROJECT_SOURCE_DIR}/src/core/Position.cpp
     ${PROJECT_SOURCE_DIR}/src/core/PositionFloat.cpp
     ${PROJECT_SOURCE_DIR}/src/core/KeyInput.cpp
     ${PROJECT_SOURCE_DIR}/src/core/Game.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/block/Ground.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/block/Wall.cpp
     ${PROJECT_SOURCE_DIR}/src/main.cpp
 )
 
@@ -63,3 +67,14 @@ if(MSVC)
     # Tell MSVC to use main instead of WinMain for Windows subsystem executables
     set_target_properties(${APP_NAME} PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
 endif()
+
+# Set the resources path to "/resources" or "/../Resources/resources" on macOS
+if(APPLE)
+    set(RES_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/../Resources/resources")
+else()
+    set(RES_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/resources")
+endif()
+
+# Copy resources to resources path
+add_custom_command(TARGET ${APP_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/resources/" "${RES_PATH}")
