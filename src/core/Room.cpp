@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:33:29
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/06 02:41:49
+ *  Update Date: 2023/06/06 16:24:47
  *  Description: Room Class
  */
 
@@ -99,11 +99,11 @@ Block *Room::getBlockByWorldPos(const Position &worldPos)
     return this->data[p.y][p.x];
 }
 
-void Room::logic(KeyInput *keyInput)
+void Room::logic(KeyInput *keyInput, sf::Time &dt)
 {
 }
 
-void Room::render(View *view)
+void Room::render(sf::RenderWindow &window)
 {
     Position p;
     for ( const auto &i : this->data )
@@ -111,10 +111,13 @@ void Room::render(View *view)
         p.x = 0;
         for ( const auto &j : i )
         {
-            Json data;
-            data["type"] = "block";
-            data["asset"] = static_cast<int>(j->getType());
-            view->addObject(p + this->pos, data);
+            sf::RectangleShape shape(sf::Vector2f(j->getSize(), j->getSize()));
+            shape.setPosition((this->pos.x + p.x) * static_cast<int>(j->getSize()),
+                              (this->pos.y + p.y) * static_cast<int>(j->getSize()));
+            shape.setFillColor(j->getType() == TBlock::kWall
+                                   ? sf::Color::Green
+                                   : sf::Color::White);
+            window.draw(shape);
 
             p.x += 1;
         }

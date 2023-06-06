@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:43:07
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/06 02:44:15
+ *  Update Date: 2023/06/06 17:02:29
  *  Description: Player Class
  */
 
@@ -40,12 +40,13 @@ bool Player::checkCollision(const PositionFloat &newPos)
     return false;
 }
 
-void Player::logic(KeyInput *keyInput)
+void Player::logic(KeyInput *keyInput, sf::Time &dt)
 {
+    double speed = 10 * dt.asSeconds();
     if ( keyInput->isUp() )
     {
         PositionFloat newPos = this->pos;
-        newPos.y -= 0.5;
+        newPos.y -= speed;
         // 如果新位置不是實體，則移動到新位置
         if ( !this->checkCollision(newPos) )
             this->pos = newPos;
@@ -54,7 +55,7 @@ void Player::logic(KeyInput *keyInput)
     if ( keyInput->isDown() )
     {
         PositionFloat newPos = this->pos;
-        newPos.y += 0.5;
+        newPos.y += speed;
         // 如果新位置不是實體，則移動到新位置
         if ( !this->checkCollision(newPos) )
             this->pos = newPos;
@@ -63,7 +64,7 @@ void Player::logic(KeyInput *keyInput)
     if ( keyInput->isLeft() )
     {
         PositionFloat newPos = this->pos;
-        newPos.x -= 0.5;
+        newPos.x -= speed;
         // 如果新位置不是實體，則移動到新位置
         if ( !this->checkCollision(newPos) )
             this->pos = newPos;
@@ -72,17 +73,17 @@ void Player::logic(KeyInput *keyInput)
     if ( keyInput->isRight() )
     {
         PositionFloat newPos = this->pos;
-        newPos.x += 0.5;
+        newPos.x += speed;
         // 如果新位置不是實體，則移動到新位置
         if ( !this->checkCollision(newPos) )
             this->pos = newPos;
     }
 }
 
-void Player::render(View *view)
+void Player::render(sf::RenderWindow &window)
 {
-    Json data;
-    data["type"] = "player";
-    data["asset"] = 0;
-    view->addObject(this->pos, data);
+    sf::RectangleShape shape(sf::Vector2f(this->size, this->size));
+    shape.setPosition(this->pos.x * this->size, this->pos.y * this->size);
+    shape.setFillColor(sf::Color::Red);
+    window.draw(shape);
 }

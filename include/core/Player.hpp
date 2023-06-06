@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:40:17
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/06 01:51:03
+ *  Update Date: 2023/06/06 15:47:48
  *  Description: Player Class
  */
 
@@ -11,7 +11,6 @@
 
 #include "Object.hpp"
 #include "PositionFloat.hpp"
-#include "View.hpp"
 #include "World.hpp"
 
 #include <vector>
@@ -24,6 +23,7 @@ namespace Dungeon
     private:
         PositionFloat pos;
         World *world;
+        size_t size{24};
 
     public:
         Player(World *world);
@@ -34,8 +34,7 @@ namespace Dungeon
         bool checkCollision(const PositionFloat &newPos);
 
     public:
-        virtual void
-        logic(KeyInput *keyInput) override;
-        virtual void render(View *view) override;
+        virtual void logic(KeyInput *keyInput, sf::Time &dt) override;
+        virtual void render(sf::RenderWindow &window) override;
     };
 }

@@ -1,3 +1,12 @@
+/**
+ *  File: World.cpp
+ *  Author: 張皓鈞(HAO) m831718@gmail.com
+ *  Create Date: 2023/06/06 02:58:48
+ *  Editor: 張皓鈞(HAO) m831718@gmail.com
+ *  Update Date: 2023/06/06 16:59:24
+ *  Description: World Class
+ */
+
 #include "core/World.hpp"
 
 using namespace Dungeon;
@@ -19,14 +28,14 @@ void World::addRoom(Room *room)
     this->rooms.push_back(room);
 }
 
-void World::logic(KeyInput *keyInput)
+void World::logic(KeyInput *keyInput, sf::Time &dt)
 {
     for ( Room *r : this->rooms )
-        r->logic(keyInput);
+        r->logic(keyInput, dt);
 }
 
-void World::render(View *view)
+void World::render(sf::RenderWindow &window)
 {
     for ( Room *r : this->rooms )
-        r->render(view);
+        r->render(window);
 }

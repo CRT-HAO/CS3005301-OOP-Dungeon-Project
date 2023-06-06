@@ -3,13 +3,11 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:36:02
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/06 02:48:21
+ *  Update Date: 2023/06/06 17:07:01
  *  Description: Game Class
  */
 
 #include "core/Game.hpp"
-
-#include "lib/webview/webview.h"
 
 using namespace Dungeon;
 
@@ -17,8 +15,7 @@ Game *Game::instance = nullptr;
 
 Game::Game()
 {
-    this->w = new webview::webview(true, nullptr);
-    int width = 11, height = 11;
+    int width = 41, height = 41;
     Room *room = new Room(Position(width / -2, height / -2), width, height);
     this->world.addRoom(room);
 }
@@ -33,66 +30,75 @@ Game *Game::getInstance()
 
 void Game::init()
 {
-    this->w->set_title("Dungeon");
-    this->w->set_size(800, 600, WEBVIEW_HINT_NONE);
-    this->w->navigate(WebViewUtil::getLocalPath("app.html"));
-    this->w->bind("apiUpdate", Game::apiUpdate);
-    this->w->bind("apiGetView", Game::apiGetView);
-    this->w->bind("apiSetKeyInput", Game::apiSetKeyInput);
-}
+    this->window.create(sf::VideoMode(800, 600), "Dengeon");
+    this->view = this->window.getDefaultView();
 
-void Game::runWebView()
-{
-    this->w->run();
+    // VSync 垂直同步
+    window.setVerticalSyncEnabled(true);
+
+    // FPS 限制
+    window.setFramerateLimit(144);
 }
 
 void Game::update()
 {
-    /**
-     * Clear View
-     */
-    this->view.clear();
+    sf::Event event;
+    while ( this->window.pollEvent(event) )
+    {
+        if ( event.type == sf::Event::Closed )
+            this->window.close();
+        else if ( event.type == sf::Event::Resized )
+        {
+            // Update the view to the new size of the window
+            sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+            this->view.reset(visibleArea);
+        }
+        else if ( event.type == sf::Event::KeyPressed )
+        {
+            this->keyInput.press(event.key.code);
+        }
+        else if ( event.type == sf::Event::KeyReleased )
+        {
+            this->keyInput.release(event.key.code);
+        }
+    }
+
+    // Update dt
+    this->dt = clock.restart();
+
+    // Clear
+    this->window.clear();
 
     KeyInput *keyInputPtr = &this->keyInput;
-    View *viewPtr = &this->view;
-
-    // Update camera focus on player
-    this->camera.focus(&this->player);
 
     /**
      * Logic
      */
-    this->world.logic(keyInputPtr);
-    this->player.logic(keyInputPtr);
-    this->camera.logic(keyInputPtr);
+    this->world.logic(keyInputPtr, this->dt);
+    this->player.logic(keyInputPtr, this->dt);
+    this->camera.logic(keyInputPtr, this->dt);
 
     /**
      * Render
      */
-    this->world.render(viewPtr);
-    this->player.render(viewPtr);
-    this->camera.render(viewPtr);
+    this->world.render(this->window);
+    this->player.render(this->window);
+    this->camera.render(this->window);
+
+    // Update camera focus on player
+    this->camera.focus(&this->player);
+
+    // Set view as camera position
+    this->camera.updateView(this->view);
+
+    // Set View
+    this->window.setView(view);
+    // Display
+    this->window.display();
 }
 
-std::string Game::apiUpdate(std::string args)
+void Game::run()
 {
-    Game *game = Game::getInstance();
-    game->update();
-    return "\"Success\"";
-}
-
-std::string Game::apiGetView(std::string args)
-{
-    Game *game = Game::getInstance();
-    return game->view.data.dump();
-}
-
-std::string Game::apiSetKeyInput(std::string args)
-{
-    Game *game = Game::getInstance();
-
-    Json argsData = Json::parse(args);
-    game->keyInput.setKey(argsData[0].get<char>(), argsData[1].get<bool>());
-
-    return "\"Success\"";
+    while ( window.isOpen() )
+        this->update();
 }

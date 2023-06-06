@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:06:30
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/06 01:39:09
+ *  Update Date: 2023/06/06 17:02:41
  *  Description: Camera Class
  */
 
@@ -22,7 +22,7 @@ namespace Dungeon
         PositionFloat pos;
         PositionFloat targetPos;
         bool smoothMove{true};
-        double smoothMoveSpeed{0.05};
+        double smoothMoveSpeed{5};
 
     public:
         Camera() {}
@@ -33,8 +33,9 @@ namespace Dungeon
         void focus(Player *player);
 
     public:
-        virtual void logic(KeyInput *keyInput) override;
-        virtual void render(View *view) override;
+        virtual void logic(KeyInput *keyInput, sf::Time &dt) override;
+        virtual void render(sf::RenderWindow &window) override;
+        void updateView(sf::View &view);
     };
 
 }
