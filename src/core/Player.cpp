@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:43:07
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 01:58:18
+ *  Update Date: 2023/06/07 03:12:43
  *  Description: Player Class
  */
 
@@ -42,14 +42,44 @@ void Player::init()
     this->texture.loadFromFile(fs::path(File::getResPath() / "images/spritesheet_player.png").string());
     this->sprite.setTexture(this->texture);
     this->sprite.setTextureRect(sf::IntRect(0, 0, spriteSize, spriteSize));
-    sprite.setScale(GRID_SIZE / spriteSize, GRID_SIZE / spriteSize);
+    sprite.setScale(this->size / spriteSize, this->size / spriteSize);
 
     // 設置碰撞區域
     this->setHitBox(sprite.getGlobalBounds());
+
+    // 動畫
+    this->animationManager.addAnimation("Idle_Left", 0,
+                                        0, 0, 0, 0, spriteSize, spriteSize);
+    this->animationManager.addAnimation("Idle_Right", 0,
+                                        4, 0, 4, 0, spriteSize, spriteSize);
+    this->animationManager.addAnimation("Moving_Left", 0.08,
+                                        0, 0, 3, 0, spriteSize, spriteSize);
+    this->animationManager.addAnimation("Moving_Right", 0.08,
+                                        4, 0, 7, 0, spriteSize, spriteSize);
+}
+
+void Player::updateAnimation(sf::Time &dt)
+{
+    if ( this->state == PlayerState::Idle )
+    {
+        if ( this->dir == PlayerDirection::Left )
+            this->animationManager.play("Idle_Left", dt);
+        else
+            this->animationManager.play("Idle_Right", dt);
+    }
+    else if ( this->state == PlayerState::Moving )
+    {
+        if ( this->dir == PlayerDirection::Left )
+            this->animationManager.play("Moving_Left", dt);
+        else
+            this->animationManager.play("Moving_Right", dt);
+    }
 }
 
 void Player::logic(KeyInput *keyInput, sf::Time &dt)
 {
+    this->state = PlayerState::Idle;
+
     double speed = 10 * GRID_SIZE * dt.asSeconds();
     if ( keyInput->isUp() )
     {
@@ -57,7 +87,10 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
         newPos.y -= speed;
         // 如果新位置不是實體，則移動到新位置
         if ( !this->checkCollision(newPos) )
+        {
             this->sprite.setPosition(newPos);
+            this->state = PlayerState::Moving;
+        }
     }
 
     if ( keyInput->isDown() )
@@ -66,7 +99,10 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
         newPos.y += speed;
         // 如果新位置不是實體，則移動到新位置
         if ( !this->checkCollision(newPos) )
+        {
             this->sprite.setPosition(newPos);
+            this->state = PlayerState::Moving;
+        }
     }
 
     if ( keyInput->isLeft() )
@@ -75,7 +111,11 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
         newPos.x -= speed;
         // 如果新位置不是實體，則移動到新位置
         if ( !this->checkCollision(newPos) )
+        {
             this->sprite.setPosition(newPos);
+            this->state = PlayerState::Moving;
+            this->dir = PlayerDirection::Left;
+        }
     }
 
     if ( keyInput->isRight() )
@@ -84,8 +124,14 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
         newPos.x += speed;
         // 如果新位置不是實體，則移動到新位置
         if ( !this->checkCollision(newPos) )
+        {
             this->sprite.setPosition(newPos);
+            this->state = PlayerState::Moving;
+            this->dir = PlayerDirection::Right;
+        }
     }
+
+    this->updateAnimation(dt);
 }
 
 void Player::render(sf::RenderWindow &window)

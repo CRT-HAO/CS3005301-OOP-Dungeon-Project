@@ -3,12 +3,13 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:40:17
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 01:47:27
+ *  Update Date: 2023/06/07 03:04:17
  *  Description: Player Class
  */
 
 #pragma once
 
+#include "AnimationManager.hpp"
 #include "Config.hpp"
 #include "Entity.hpp"
 #include "World.hpp"
@@ -17,12 +18,26 @@
 
 namespace Dungeon
 {
+    enum class PlayerState
+    {
+        Idle,
+        Moving,
+    };
+
+    enum class PlayerDirection
+    {
+        Left,
+        Right,
+    };
 
     class Player : public Entity
     {
     private:
         World *world;
         size_t size{GRID_SIZE};
+        AnimationManager animationManager{this->sprite, this->texture};
+        PlayerState state{PlayerState::Idle};
+        PlayerDirection dir{PlayerDirection::Left};
 
     public:
         Player(World *world);
@@ -30,6 +45,8 @@ namespace Dungeon
 
     public:
         bool checkCollision(const sf::Vector2f &newPos);
+
+        void updateAnimation(sf::Time &dt);
 
     public:
         virtual void init() override;

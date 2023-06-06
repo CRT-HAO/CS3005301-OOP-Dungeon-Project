@@ -22,6 +22,7 @@ set(SRC_LIST
     ${PROJECT_SOURCE_DIR}/src/core/Camera.cpp
     ${PROJECT_SOURCE_DIR}/src/core/ObjectManager.cpp
     ${PROJECT_SOURCE_DIR}/src/core/EntityManager.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/AnimationManager.cpp
     ${PROJECT_SOURCE_DIR}/src/core/Position.cpp
     ${PROJECT_SOURCE_DIR}/src/core/PositionFloat.cpp
     ${PROJECT_SOURCE_DIR}/src/core/KeyInput.cpp
