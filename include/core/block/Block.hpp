@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:15:11
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 01:25:06
+ *  Update Date: 2023/06/07 03:18:10
  *  Description: Block Class
  */
 
@@ -22,10 +22,6 @@ namespace Dungeon
     private:
         bool solid{false};
         size_t size{GRID_SIZE};
-
-    protected:
-        sf::Texture texture;
-        sf::Sprite sprite;
 
     public:
         inline const sf::Vector2f &getPos() const { return this->sprite.getPosition(); }

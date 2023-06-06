@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:36:02
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 01:28:56
+ *  Update Date: 2023/06/07 03:29:13
  *  Description: Game Class
  */
 
@@ -43,7 +43,7 @@ void Game::init()
 
     int width = 11, height = 11;
     Room *room = new Room();
-    room->autoGen(sf::Vector2f(width / -2, height / -2), width, height);
+    room->autoGen(sf::Vector2f(width / -2 * GRID_SIZE, height / -2 * GRID_SIZE), width, height);
     this->world.addRoom(room);
     objectManager.addObject(&world);
 
