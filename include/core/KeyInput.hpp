@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 19:36:38
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/06 16:13:23
+ *  Update Date: 2023/06/07 11:27:24
  *  Description: Key Input Class
  */
 
@@ -51,6 +51,11 @@ namespace Dungeon
         inline bool isRight() const
         {
             return this->keys.at(sf::Keyboard::Key::D);
+        }
+
+        inline bool isEnter() const
+        {
+            return this->keys.at(sf::Keyboard::Key::Enter);
         }
 
     public:
