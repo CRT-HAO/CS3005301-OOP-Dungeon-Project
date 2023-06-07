@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 23:28:45
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 12:35:08
+ *  Update Date: 2023/06/07 12:42:39
  *  Description: Door Block Class
  */
 
@@ -12,9 +12,9 @@
 
 using namespace Dungeon;
 
-Door::Door(Player *player) : player(player) {}
+Door::Door(Player *player) : player(player), closed(true) {}
 
-Door::Door(Player *player, const sf::Vector2f &pos) : player(player)
+Door::Door(Player *player, const sf::Vector2f &pos) : player(player), closed(true)
 {
     this->setPos(pos);
 }
