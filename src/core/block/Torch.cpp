@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 23:28:45
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 03:32:05
+ *  Update Date: 2023/06/07 11:16:09
  *  Description: Torch Block Class
  */
 
@@ -25,7 +25,7 @@ void Torch::init()
     this->texture.loadFromFile(fs::path(File::getResPath() / "images/spritesheet_torch.png").string());
     this->sprite.setTexture(this->texture);
     this->sprite.setTextureRect(sf::IntRect(0, spriteSize, spriteSize, spriteSize));
-    sprite.setScale(GRID_SIZE / spriteSize, GRID_SIZE / spriteSize);
+    sprite.setScale(this->getSize() / spriteSize, this->getSize() / spriteSize);
     this->setSolid(true);
 
     this->animationManager.addAnimation("Flickering", 0.07, 0, 0, 2, 0, spriteSize, spriteSize);
