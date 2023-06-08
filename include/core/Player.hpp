@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:40:17
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 03:04:17
+ *  Update Date: 2023/06/08 21:03:33
  *  Description: Player Class
  */
 
@@ -46,6 +46,7 @@ namespace Dungeon
     public:
         bool checkCollision(const sf::Vector2f &newPos);
 
+        void updateHitbox();
         void updateAnimation(sf::Time &dt);
 
     public:

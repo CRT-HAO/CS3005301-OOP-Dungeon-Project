@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:33:29
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 12:25:45
+ *  Update Date: 2023/06/07 19:49:01
  *  Description: Room Class
  */
 
@@ -16,7 +16,8 @@
 
 using namespace Dungeon;
 
-Room::Room() : EntityManager() {}
+Room::Room(World *world, Player *player)
+    : EntityManager(), world(world), player(player) {}
 
 Room::~Room() {}
 
@@ -49,11 +50,8 @@ void Room::autoGen(const sf::Vector2f &pos, size_t width, size_t height)
     this->addBlock(new Torch(pos + sf::Vector2f((width - 2) * GRID_SIZE, 1 * GRID_SIZE)));
     this->addBlock(new Torch(pos + sf::Vector2f(1 * GRID_SIZE, (height - 2) * GRID_SIZE)));
     this->addBlock(new Torch(pos + sf::Vector2f((width - 2) * GRID_SIZE, (height - 2) * GRID_SIZE)));
-}
 
-void Room::genDoor(const sf::Vector2f &pos, Player *player)
-{
-    this->addBlock(new Door(player, pos + sf::Vector2f(8 * GRID_SIZE, 7 * GRID_SIZE)));
+    this->addBlock(new Door(this->player, pos + sf::Vector2f(8 * GRID_SIZE, 7 * GRID_SIZE)));
 }
 
 void Room::addBlock(Block *block)

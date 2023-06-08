@@ -33,6 +33,7 @@
 
 # CMake
 /build
+/cmake-build*
 
 # macOS
 .DS_Store

@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/30 10:26:51
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 00:28:19
+ *  Update Date: 2023/06/08 22:52:24
  *  Description: Objects Manager Class
  */
 
@@ -13,12 +13,11 @@ using namespace Dungeon;
 
 EntityManager::EntityManager() {}
 
-void EntityManager::addEntity(Entity *e)
-{
-    this->entities.push_back(e);
-}
+void EntityManager::addEntity(Entity *e) { this->entities.insert(e); }
 
-const std::vector<Entity *> &EntityManager::getEntities() const
+void EntityManager::removeEntity(Entity *e) { this->entities.erase(e); }
+
+const std::unordered_set<Entity *> &EntityManager::getEntities() const
 {
     return this->entities;
 }

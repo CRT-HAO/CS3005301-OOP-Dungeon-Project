@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/30 10:21:55
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 00:28:02
+ *  Update Date: 2023/06/08 22:52:01
  *  Description: Entity Manager
  */
 
@@ -11,7 +11,7 @@
 
 #include "Entity.hpp"
 
-#include <vector>
+#include <unordered_set>
 
 namespace Dungeon
 {
@@ -19,14 +19,16 @@ namespace Dungeon
     class EntityManager : public Entity
     {
     private:
-        std::vector<Entity *> entities;
+        std::unordered_set<Entity *> entities;
 
     public:
         EntityManager();
 
     public:
         void addEntity(Entity *e);
-        const std::vector<Entity *> &getEntities() const;
+        void removeEntity(Entity *e);
+
+        const std::unordered_set<Entity *> &getEntities() const;
         bool intersects(const sf::FloatRect &frect);
 
     public:

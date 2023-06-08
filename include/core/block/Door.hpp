@@ -22,7 +22,6 @@ namespace Dungeon
     {
     private:
         Player *player;
-        // World *world;
         bool closed;
         sf::IntRect textureClosed;
         sf::IntRect textureOpened;

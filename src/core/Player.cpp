@@ -3,12 +3,13 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:43:07
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 03:12:43
+ *  Update Date: 2023/06/08 21:17:17
  *  Description: Player Class
  */
 
 #include "core/Player.hpp"
 
+#include "SFML/System/Vector2.hpp"
 #include "core/File.hpp"
 
 #include <cmath>
@@ -24,9 +25,10 @@ Player::Player(World *world, const sf::Vector2f &pos) : world(world)
 
 bool Player::checkCollision(const sf::Vector2f &newPos)
 {
+    sf::Vector2f delta = newPos - this->getPos();
     sf::FloatRect hitbox = this->getHitBox();
-    hitbox.left = newPos.x;
-    hitbox.top = newPos.y;
+    hitbox.left += delta.x;
+    hitbox.top += delta.y;
     for ( Room *room : this->world->getRooms() )
     {
         if ( room->intersects(hitbox) )
@@ -39,23 +41,36 @@ bool Player::checkCollision(const sf::Vector2f &newPos)
 void Player::init()
 {
     int spriteSize = 8;
-    this->texture.loadFromFile(fs::path(File::getResPath() / "images/spritesheet_player.png").string());
+    this->texture.loadFromFile(
+        fs::path(File::getResPath() / "images/spritesheet_player.png")
+            .string());
     this->sprite.setTexture(this->texture);
     this->sprite.setTextureRect(sf::IntRect(0, 0, spriteSize, spriteSize));
     sprite.setScale(this->size / spriteSize, this->size / spriteSize);
 
     // 設置碰撞區域
-    this->setHitBox(sprite.getGlobalBounds());
+    this->updateHitbox();
 
     // 動畫
-    this->animationManager.addAnimation("Idle_Left", 0,
-                                        0, 0, 0, 0, spriteSize, spriteSize);
-    this->animationManager.addAnimation("Idle_Right", 0,
-                                        4, 0, 4, 0, spriteSize, spriteSize);
-    this->animationManager.addAnimation("Moving_Left", 0.08,
-                                        0, 0, 3, 0, spriteSize, spriteSize);
-    this->animationManager.addAnimation("Moving_Right", 0.08,
-                                        4, 0, 7, 0, spriteSize, spriteSize);
+    this->animationManager.addAnimation("Idle_Left", 0, 0, 0, 0, 0, spriteSize,
+                                        spriteSize);
+    this->animationManager.addAnimation("Idle_Right", 0, 4, 0, 4, 0, spriteSize,
+                                        spriteSize);
+    this->animationManager.addAnimation("Moving_Left", 0.08, 0, 0, 3, 0,
+                                        spriteSize, spriteSize);
+    this->animationManager.addAnimation("Moving_Right", 0.08, 4, 0, 7, 0,
+                                        spriteSize, spriteSize);
+}
+
+void Player::updateHitbox()
+{
+    float littleSpace = 10;
+    sf::FloatRect hitbox = sprite.getGlobalBounds();
+    hitbox.left += littleSpace / 2;
+    hitbox.top += littleSpace / 2;
+    hitbox.width -= littleSpace;
+    hitbox.height -= littleSpace;
+    this->setHitBox(hitbox);
 }
 
 void Player::updateAnimation(sf::Time &dt)
@@ -131,10 +146,21 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
         }
     }
 
+    // 更新碰撞區域
+    this->updateHitbox();
+
     this->updateAnimation(dt);
 }
 
 void Player::render(sf::RenderWindow &window)
 {
     window.draw(this->sprite);
+
+    // Debug: Draw hitbox
+    // sf::RectangleShape rectangle;
+    // rectangle.setPosition(this->getHitBox().left, this->getHitBox().top);
+    // rectangle.setSize(
+    //     sf::Vector2f(this->getHitBox().width, this->getHitBox().height));
+    // rectangle.setFillColor(sf::Color::Color::Yellow);
+    // window.draw(rectangle);
 }

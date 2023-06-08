@@ -3,13 +3,13 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 19:36:38
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 11:27:24
+ *  Update Date: 2023/06/08 17:51:55
  *  Description: Key Input Class
  */
 
 #pragma once
 
-#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Graphics.hpp>
 
 #include <map>
 
