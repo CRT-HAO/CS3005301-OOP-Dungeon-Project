@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:06:30
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/08 15:51:31
+ *  Update Date: 2023/06/09 22:36:44
  *  Description: Camera Class
  */
 
@@ -23,7 +23,7 @@ namespace Dungeon
         sf::Vector2f pos;
         sf::Vector2f targetPos;
         bool smoothMove{true};
-        double smoothMoveSpeed{2.5};
+        float smoothMoveSpeed{2.5};
 
     public:
         Camera() {}
