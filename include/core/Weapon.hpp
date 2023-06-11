@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/11 18:03:25
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 02:43:02
+ *  Update Date: 2023/06/12 03:20:54
  *  Description: Weapon Class
  */
 
@@ -26,6 +26,7 @@ namespace Dungeon
         float damage;
         float attackInterval;
         sf::Time attackTime;
+        bool attacking{false};
         sf::Texture texture;
         sf::Sprite sprite;
         AnimationManager animationManager{sprite, texture};

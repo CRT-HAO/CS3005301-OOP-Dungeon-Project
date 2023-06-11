@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/12 00:41:38
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 03:05:29
+ *  Update Date: 2023/06/12 03:26:48
  *  Description: Weapon Class
  */
 
@@ -93,21 +93,32 @@ void Weapon::logic(KeyInput *keyInput, sf::Time &dt)
 
     this->sprite.setPosition(newPos);
 
-    if ( keyInput->isAttack() &&
-         (this->attackTime.asSeconds() > this->attackInterval) )
+    if ( keyInput->isAttack() && !attacking )
     {
         this->attack();
         this->animationManager.play(animationName, dt);
         this->attackTime = sf::Time::Zero;
+        attacking = true;
     }
     else
     {
-        if ( this->animationManager.isDone(animationName) || lastDir != dir )
-            this->animationManager.play("Idle", dt);
-        else
+        if ( attacking &&
+             (!this->animationManager.isDone(animationName) || lastDir != dir) )
+        {
             this->animationManager.play(animationName, dt);
+        }
+        else
+        {
+            this->animationManager.play("Idle", dt);
+        }
 
         this->attackTime += dt;
+    }
+
+    if ( attacking )
+    {
+        if ( this->attackTime.asSeconds() > this->attackInterval )
+            attacking = false;
     }
 
     lastDir = dir;
