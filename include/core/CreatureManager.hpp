@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/11 15:28:23
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/11 15:32:20
+ *  Update Date: 2023/06/12 00:52:46
  *  Description: Creature Manager Class
  */
 
@@ -17,16 +17,19 @@
 namespace Dungeon
 {
 
-    class CreatureManager : public EntityManager
+    class CreatureManager : protected EntityManager
     {
-    private:
-        std::unordered_set<Creature *> creatures;
-
     public:
         CreatureManager();
 
     public:
         void addCreature(Creature *creature);
+        std::unordered_set<Creature *> getCreatures() const;
+
+    public:
+        virtual void init() override;
+        virtual void logic(KeyInput *keyInput, sf::Time &dt) override;
+        virtual void render(sf::RenderWindow &window) override;
     };
 
 }

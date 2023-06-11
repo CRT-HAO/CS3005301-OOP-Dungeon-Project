@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:43:07
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/11 16:20:41
+ *  Update Date: 2023/06/12 02:48:58
  *  Description: Player Class
  */
 
@@ -16,12 +16,18 @@
 
 using namespace Dungeon;
 
-Player::Player(World *world) : world(world) {}
+Player::Player(World *world) : world(world)
+{
+    this->weapon = new Weapon(world, this);
+}
 
 Player::Player(World *world, const sf::Vector2f &pos) : world(world)
 {
     sprite.setPosition(pos);
+    this->weapon = new Weapon(world, this);
 }
+
+Player::~Player() { delete this->weapon; }
 
 bool Player::checkCollision(const sf::Vector2f &newPos)
 {
@@ -36,6 +42,35 @@ bool Player::checkCollision(const sf::Vector2f &newPos)
     }
 
     return false;
+}
+
+void Player::updateHitbox()
+{
+    float littleSpace = 10;
+    sf::FloatRect hitbox = sprite.getGlobalBounds();
+    hitbox.left += littleSpace / 2;
+    hitbox.top += littleSpace / 2;
+    hitbox.width -= littleSpace;
+    hitbox.height -= littleSpace;
+    this->setHitBox(hitbox);
+}
+
+void Player::updateAnimation(sf::Time &dt)
+{
+    if ( this->state == PlayerState::Idle )
+    {
+        if ( this->dirX == PlayerDirection::Left )
+            this->animationManager.play("Idle_Left", dt);
+        else
+            this->animationManager.play("Idle_Right", dt);
+    }
+    else if ( this->state == PlayerState::Moving )
+    {
+        if ( this->dirX == PlayerDirection::Left )
+            this->animationManager.play("Moving_Left", dt);
+        else
+            this->animationManager.play("Moving_Right", dt);
+    }
 }
 
 void Player::init()
@@ -60,35 +95,9 @@ void Player::init()
                                         spriteSize, spriteSize);
     this->animationManager.addAnimation("Moving_Right", 0.08, 4, 0, 7, 0,
                                         spriteSize, spriteSize);
-}
 
-void Player::updateHitbox()
-{
-    float littleSpace = 10;
-    sf::FloatRect hitbox = sprite.getGlobalBounds();
-    hitbox.left += littleSpace / 2;
-    hitbox.top += littleSpace / 2;
-    hitbox.width -= littleSpace;
-    hitbox.height -= littleSpace;
-    this->setHitBox(hitbox);
-}
-
-void Player::updateAnimation(sf::Time &dt)
-{
-    if ( this->state == PlayerState::Idle )
-    {
-        if ( this->dir == PlayerDirection::Left )
-            this->animationManager.play("Idle_Left", dt);
-        else
-            this->animationManager.play("Idle_Right", dt);
-    }
-    else if ( this->state == PlayerState::Moving )
-    {
-        if ( this->dir == PlayerDirection::Left )
-            this->animationManager.play("Moving_Left", dt);
-        else
-            this->animationManager.play("Moving_Right", dt);
-    }
+    // 武器
+    this->weapon->init();
 }
 
 void Player::logic(KeyInput *keyInput, sf::Time &dt)
@@ -105,6 +114,7 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
         {
             this->sprite.setPosition(newPos);
             this->state = PlayerState::Moving;
+            this->dir = PlayerDirection::Up;
         }
     }
 
@@ -117,6 +127,7 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
         {
             this->sprite.setPosition(newPos);
             this->state = PlayerState::Moving;
+            this->dir = PlayerDirection::Down;
         }
     }
 
@@ -129,6 +140,7 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
         {
             this->sprite.setPosition(newPos);
             this->state = PlayerState::Moving;
+            this->dirX = PlayerDirection::Left;
             this->dir = PlayerDirection::Left;
         }
     }
@@ -142,6 +154,7 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
         {
             this->sprite.setPosition(newPos);
             this->state = PlayerState::Moving;
+            this->dirX = PlayerDirection::Right;
             this->dir = PlayerDirection::Right;
         }
     }
@@ -150,13 +163,17 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
     this->updateHitbox();
 
     this->updateAnimation(dt);
+
+    this->weapon->logic(keyInput, dt);
+
+    std::cout << "HP=" << this->getHP() << std::endl;
 }
 
 void Player::render(sf::RenderWindow &window)
 {
     window.draw(this->sprite);
 
-    std::cout << "HP=" << this->getHP() << std::endl;
+    this->weapon->render(window);
 
     // Debug: Draw hitbox
     // sf::RectangleShape rectangle;

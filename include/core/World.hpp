@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:28:39
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/11 15:35:26
+ *  Update Date: 2023/06/12 00:45:31
  *  Description: World Class
  */
 
@@ -12,6 +12,7 @@
 #include "CreatureManager.hpp"
 #include "Object.hpp"
 #include "Room.hpp"
+#include "core/CreatureManager.hpp"
 
 #include <vector>
 
@@ -26,6 +27,12 @@ namespace Dungeon
 
     public:
         World();
+
+    public:
+        inline CreatureManager &getCreatureManager()
+        {
+            return this->creatorManager;
+        }
 
     public:
         const std::vector<Room *> &getRooms();

@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/09 20:49:35
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/11 16:18:02
+ *  Update Date: 2023/06/12 02:33:59
  *  Description: Creature Class
  */
 
@@ -24,11 +24,13 @@ namespace Dungeon
 
     protected:
         float hp;
+        bool underAttack{false};
+        sf::Time damageTime;
 
     public:
-        Creature();
-        Creature(World *world, Player *followPlayer);
-        Creature(AICreatureEngine *aiEngine);
+        Creature(float hp = 100);
+        Creature(World *world, Player *followPlayer, float hp = 100);
+        Creature(AICreatureEngine *aiEngine, float hp = 100);
 
     public:
         inline void setAIEngine(AICreatureEngine *engine)
@@ -36,6 +38,18 @@ namespace Dungeon
             this->aiEngine = engine;
         }
 
+        inline float getHP() const { return this->hp; }
+
+        inline void setHP(float hp) { this->hp = hp; }
+
+        inline bool isDead() const { return this->hp <= 0; }
+
+        inline bool isUnderAttack() const { return this->underAttack; }
+
+    public:
+        void damage(float damage);
+
+    public:
         virtual void logic(KeyInput *keyInput, sf::Time &dt) override;
         virtual void render(sf::RenderWindow &window) override;
     };

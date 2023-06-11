@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:40:17
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/11 16:31:19
+ *  Update Date: 2023/06/12 02:49:28
  *  Description: Player Class
  */
 
@@ -12,6 +12,7 @@
 #include "AnimationManager.hpp"
 #include "Config.hpp"
 #include "Entity.hpp"
+#include "Weapon.hpp"
 #include "World.hpp"
 
 #include <vector>
@@ -28,6 +29,8 @@ namespace Dungeon
     {
         Left,
         Right,
+        Down,
+        Up,
     };
 
     class Player : public Entity
@@ -37,13 +40,16 @@ namespace Dungeon
         size_t size{GRID_SIZE};
         AnimationManager animationManager{this->sprite, this->texture};
         PlayerState state{PlayerState::Idle};
+        PlayerDirection dirX{PlayerDirection::Left};
         PlayerDirection dir{PlayerDirection::Left};
+        Weapon *weapon;
         float maxHP{100};
         float hp{maxHP};
 
     public:
         Player(World *world);
         Player(World *world, const sf::Vector2f &pos);
+        ~Player();
 
     public:
         inline float getHP() const { return this->hp; }
@@ -63,6 +69,8 @@ namespace Dungeon
         }
 
         inline bool isDead() const { return this->hp <= 0; }
+
+        inline PlayerDirection getDir() const { return this->dir; }
 
     public:
         bool checkCollision(const sf::Vector2f &newPos);
