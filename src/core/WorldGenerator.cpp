@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:28:39
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/09 23:31:30
+ *  Update Date: 2023/06/11 15:37:40
  *  Description: World Generator Class
  */
 
@@ -134,9 +134,9 @@ void WorldGenerator::genRoomsTool(World *world, Player *player,
     // 產生怪物
     for ( size_t i = 0; i < 3; ++i )
     {
-        Creature *creature = new CreatureS(player);
+        Creature *creature = new CreatureS(world, player);
         creature->setPos(pos + sf::Vector2f(5 * GRID_SIZE, 5 * GRID_SIZE));
-        room->addEntity(creature);
+        world->addCreature(creature);
     }
 
     world->addRoom(room);

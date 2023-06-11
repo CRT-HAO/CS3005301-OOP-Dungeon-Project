@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:43:07
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/08 21:17:17
+ *  Update Date: 2023/06/11 16:20:41
  *  Description: Player Class
  */
 
@@ -155,6 +155,8 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
 void Player::render(sf::RenderWindow &window)
 {
     window.draw(this->sprite);
+
+    std::cout << "HP=" << this->getHP() << std::endl;
 
     // Debug: Draw hitbox
     // sf::RectangleShape rectangle;

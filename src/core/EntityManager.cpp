@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/30 10:26:51
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/08 22:52:24
+ *  Update Date: 2023/06/11 14:56:25
  *  Description: Objects Manager Class
  */
 
@@ -45,6 +45,12 @@ void EntityManager::logic(KeyInput *keyInput, sf::Time &dt)
 
 void EntityManager::render(sf::RenderWindow &window)
 {
-    for ( Entity *en : this->entities )
+    std::vector<Entity *> sorted(this->entities.begin(), this->entities.end());
+
+    sort(sorted.begin(), sorted.end(),
+         [](Entity *a, Entity *b) -> bool
+         { return a->getZIndex() > b->getZIndex(); });
+
+    for ( Entity *en : sorted )
         en->render(window);
 }
