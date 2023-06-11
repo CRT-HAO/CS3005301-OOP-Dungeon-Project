@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:36:02
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/09 00:24:42
+ *  Update Date: 2023/06/11 16:29:18
  *  Description: Game Class
  */
 
@@ -26,7 +26,7 @@ Game *Game::getInstance()
 
 void Game::init()
 {
-    this->window.create(sf::VideoMode(800, 600), "Dengeon");
+    this->window.create(sf::VideoMode(800, 600), "DaBian");
     this->view = this->window.getDefaultView();
 
     // VSync 垂直同步

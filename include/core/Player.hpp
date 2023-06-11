@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:40:17
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/08 21:03:33
+ *  Update Date: 2023/06/11 16:31:19
  *  Description: Player Class
  */
 
@@ -38,10 +38,31 @@ namespace Dungeon
         AnimationManager animationManager{this->sprite, this->texture};
         PlayerState state{PlayerState::Idle};
         PlayerDirection dir{PlayerDirection::Left};
+        float maxHP{100};
+        float hp{maxHP};
 
     public:
         Player(World *world);
         Player(World *world, const sf::Vector2f &pos);
+
+    public:
+        inline float getHP() const { return this->hp; }
+
+        inline void setHP(float hp) { this->hp = hp; }
+
+        inline void damage(float damage)
+        {
+            this->hp -= std::min(damage, this->hp);
+        }
+
+        inline void heal(float heal)
+        {
+            this->hp += heal;
+            if ( this->hp > this->maxHP )
+                this->hp = this->maxHP;
+        }
+
+        inline bool isDead() const { return this->hp <= 0; }
 
     public:
         bool checkCollision(const sf::Vector2f &newPos);

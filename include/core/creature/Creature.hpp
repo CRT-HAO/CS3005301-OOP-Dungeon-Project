@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/09 20:49:35
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/09 23:22:52
+ *  Update Date: 2023/06/11 16:18:02
  *  Description: Creature Class
  */
 
@@ -14,15 +14,20 @@
 
 namespace Dungeon
 {
+    // Forward declarations
+    class World;
 
     class Creature : public Entity
     {
     private:
         AICreatureEngine *aiEngine;
 
+    protected:
+        float hp;
+
     public:
         Creature();
-        Creature(Entity *followEntity);
+        Creature(World *world, Player *followPlayer);
         Creature(AICreatureEngine *aiEngine);
 
     public:

@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 23:00:06
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/09 23:26:56
+ *  Update Date: 2023/06/11 15:24:10
  *  Description: Entity Class
  */
 
@@ -22,11 +22,12 @@ namespace Dungeon
         sf::Texture texture;
         sf::Sprite sprite;
         sf::FloatRect hitbox;
+        int zIndex{0};
 
     public:
         inline void setPos(const sf::Vector2f &pos)
         {
-            return this->sprite.setPosition(pos);
+            this->sprite.setPosition(pos);
         };
 
         inline const sf::Vector2f &getPos() const
@@ -46,11 +47,22 @@ namespace Dungeon
             this->sprite.move(offset);
         }
 
+        inline int getZIndex() const { return this->zIndex; }
+
+        inline void setZIndex(int ziIndex) { this->zIndex = ziIndex; }
+
+        inline sf::FloatRect getGlobalBounds() const
+        {
+            return this->sprite.getGlobalBounds();
+        }
+
         inline const sf::FloatRect &getHitBox() const { return this->hitbox; }
+
         inline void setHitBox(const sf::FloatRect &hitbox)
         {
             this->hitbox = hitbox;
         }
+
         bool intersects(const sf::FloatRect &frect);
     };
 }

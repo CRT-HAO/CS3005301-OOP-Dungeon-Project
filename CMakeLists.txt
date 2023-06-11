@@ -31,6 +31,7 @@ set(SRC_LIST
     ${PROJECT_SOURCE_DIR}/src/core/block/Wall.cpp
     ${PROJECT_SOURCE_DIR}/src/core/block/Torch.cpp
     ${PROJECT_SOURCE_DIR}/src/core/block/Door.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/CreatureManager.cpp
     ${PROJECT_SOURCE_DIR}/src/core/creature/Creature.cpp
     ${PROJECT_SOURCE_DIR}/src/core/creature/CreatureS.cpp
     ${PROJECT_SOURCE_DIR}/src/core/creature/ai_engine/AICreatureEngine.cpp

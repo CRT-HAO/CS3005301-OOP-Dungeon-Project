@@ -3,12 +3,13 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:28:39
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 00:32:29
+ *  Update Date: 2023/06/11 15:35:26
  *  Description: World Class
  */
 
 #pragma once
 
+#include "CreatureManager.hpp"
 #include "Object.hpp"
 #include "Room.hpp"
 
@@ -21,6 +22,7 @@ namespace Dungeon
     {
     private:
         std::vector<Room *> rooms;
+        CreatureManager creatorManager;
 
     public:
         World();
@@ -29,6 +31,8 @@ namespace Dungeon
         const std::vector<Room *> &getRooms();
         void clear();
         void addRoom(Room *room);
+        void addCreature(Creature *creator);
+        bool intersects(const sf::FloatRect &frect);
 
     public:
         virtual void init() override;
