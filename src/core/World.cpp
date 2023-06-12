@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 02:58:48
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 08:12:30
+ *  Update Date: 2023/06/12 16:00:59
  *  Description: World Class
  */
 
@@ -15,7 +15,11 @@ using namespace Dungeon;
 
 World::World(Player *player) : player(player) {}
 
-void World::clear() { this->rooms.clear(); }
+void World::clear()
+{
+    this->rooms.clear();
+    this->creatureManager.clear();
+}
 
 const std::vector<Room *> &World::getRooms() { return this->rooms; }
 

@@ -20,6 +20,11 @@ std::unordered_set<Creature *> CreatureManager::getCreatures() const
     return r;
 }
 
+size_t CreatureManager::getCreautresNum() const
+{
+    return this->getEntities().size();
+}
+
 void CreatureManager::init() { return EntityManager::init(); }
 
 void CreatureManager::logic(KeyInput *keyInput, sf::Time &dt)

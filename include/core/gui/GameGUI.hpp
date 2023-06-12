@@ -1,9 +1,9 @@
 /**
- *  File: PlayerGUI.hpp
+ *  File: GameGUI.hpp
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/12 08:46:10
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 16:16:53
+ *  Update Date: 2023/06/12 15:21:17
  *  Description: Player GUI Class
  */
 
@@ -13,19 +13,21 @@
 namespace Dungeon
 {
 
-    class PlayerGUI : public GUI
+    class GameGUI : public GUI
     {
     private:
-        Player *player;
         sf::Font font;
-        sf::Text hp;
-        sf::Text dead;
+        sf::Text creatureNum;
+        size_t currentCreatureNum{0};
 
     public:
-        PlayerGUI(Player *player);
+        GameGUI();
 
     public:
-        inline void setPlayer(Player *player) { this->player = player; }
+        inline void setCurrentCreatureNum(size_t num)
+        {
+            this->currentCreatureNum = num;
+        }
 
     public:
         virtual void init() override;

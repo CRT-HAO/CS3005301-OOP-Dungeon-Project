@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 23:28:45
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 10:33:53
+ *  Update Date: 2023/06/12 15:34:11
  *  Description: Heal Block Class
  */
 
@@ -65,7 +65,7 @@ Json Heal::toJson() const
 {
     Json j;
     j["type"] = "Heal";
-    j["heak_hp"] = this->healHP;
+    j["heal_hp"] = this->healHP;
     j.update(Block::toJson());
     return j;
 }

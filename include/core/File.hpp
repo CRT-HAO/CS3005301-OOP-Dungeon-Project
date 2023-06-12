@@ -48,9 +48,23 @@ namespace Dungeon
             fs::path p;
             p /= File::getExeDirectory().u8string();
 #if defined __APPLE__
-            p /= "../Resources/resources/";
+            // p /= "../Resources/resources/";
+            p /= "resources/";
 #else
             p /= "resources/";
+#endif
+            return p;
+        }
+
+        static fs::path getDataPath()
+        {
+            fs::path p;
+            p /= File::getExeDirectory().u8string();
+#if defined __APPLE__
+            // p /= "../Resources/data/";
+            p /= "data/";
+#else
+            p /= "data/";
 #endif
             return p;
         }

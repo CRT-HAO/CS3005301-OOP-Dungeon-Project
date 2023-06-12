@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:33:29
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 10:19:42
+ *  Update Date: 2023/06/12 14:55:24
  *  Description: Room Class
  */
 
@@ -68,8 +68,6 @@ void Room::addBlock(Block *block) { this->addEntity(block); }
 void Room::fromJson(const Json &json)
 {
     this->clear();
-    std::cout << "Rooms:" << std::endl;
-    std::cout << json.dump() << std::endl;
     for ( const auto &b : json["entities"] )
     {
         if ( b["type"].get<std::string>() == "Ground" )

@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/11 15:28:23
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 08:12:46
+ *  Update Date: 2023/06/12 15:25:00
  *  Description: Creature Manager Class
  */
 
@@ -25,6 +25,7 @@ namespace Dungeon
     public:
         void addCreature(Creature *creature);
         std::unordered_set<Creature *> getCreatures() const;
+        size_t getCreautresNum() const;
 
     public:
         virtual void init() override;

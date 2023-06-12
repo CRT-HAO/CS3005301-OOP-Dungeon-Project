@@ -41,6 +41,8 @@ set(SRC_LIST
     ${PROJECT_SOURCE_DIR}/src/core/WorldGenerator.cpp
     ${PROJECT_SOURCE_DIR}/src/core/GUIManager.cpp
     ${PROJECT_SOURCE_DIR}/src/core/gui/PlayerGUI.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/gui/GameGUI.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/GameData.cpp
     ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 if(MSVC)
@@ -59,8 +61,7 @@ if(WIN32 AND BUILD_SHARED_LIBS)
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:${APP_NAME}> $<TARGET_FILE_DIR:${APP_NAME}> COMMAND_EXPAND_LISTS)
 endif()
 
-install(TARGETS ${APP_NAME})
-
+# install(TARGETS ${APP_NAME})
 set_target_properties(${APP_NAME} PROPERTIES
     BUNDLE True
     MACOSX_BUNDLE_GUI_IDENTIFIER edu.ntust.${APP_NAME}
@@ -82,7 +83,8 @@ endif()
 
 # Set the resources path to "/resources" or "/../Resources/resources" on macOS
 if(APPLE)
-    set(RES_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/../Resources/resources")
+    # set(RES_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/../Resources/resources")
+    set(RES_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/resources")
 else()
     set(RES_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/resources")
 endif()

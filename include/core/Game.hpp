@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:14:48
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 09:08:57
+ *  Update Date: 2023/06/12 16:17:08
  *  Description: Game Class
  */
 
@@ -16,6 +16,9 @@
 #include "Room.hpp"
 #include "World.hpp"
 #include "core/GUIManager.hpp"
+#include "core/GameData.hpp"
+#include "core/gui/GameGUI.hpp"
+#include "core/gui/PlayerGUI.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -38,9 +41,14 @@ namespace Dungeon
 
         ObjectManager objectManager;
         GUIManager guiManager;
-        World world{nullptr};
-        Player player{nullptr};
-        Camera camera;
+        World *world;
+        Player *player;
+        Camera *camera;
+        PlayerGUI playerGUI{nullptr};
+        GameGUI gameGUI;
+
+        GameData gameData;
+        size_t level{0};
 
     private:
         Game();

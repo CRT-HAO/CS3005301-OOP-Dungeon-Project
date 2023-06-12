@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:28:39
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 06:59:51
+ *  Update Date: 2023/06/12 15:24:31
  *  Description: World Class
  */
 
@@ -37,6 +37,10 @@ namespace Dungeon
 
     public:
         inline void setPlayer(Player *player) { this->player = player; }
+        inline const CreatureManager &getCreatureManager() const
+        {
+            return this->creatureManager;
+        }
 
     public:
         const std::vector<Room *> &getRooms();
