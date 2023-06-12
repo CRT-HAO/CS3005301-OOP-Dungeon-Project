@@ -43,6 +43,7 @@ set(SRC_LIST
     ${PROJECT_SOURCE_DIR}/src/core/gui/PlayerGUI.cpp
     ${PROJECT_SOURCE_DIR}/src/core/gui/GameGUI.cpp
     ${PROJECT_SOURCE_DIR}/src/core/GameData.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/GameSave.cpp
     ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 if(MSVC)

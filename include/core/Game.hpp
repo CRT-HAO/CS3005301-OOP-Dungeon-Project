@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:14:48
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 16:17:08
+ *  Update Date: 2023/06/12 16:27:23
  *  Description: Game Class
  */
 
@@ -55,6 +55,10 @@ namespace Dungeon
 
     public:
         static Game *getInstance();
+
+    public:
+        void saveFile();
+        void loadFile();
 
     public:
         void init();

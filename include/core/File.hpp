@@ -68,6 +68,19 @@ namespace Dungeon
 #endif
             return p;
         }
+
+        static fs::path getSavePath()
+        {
+            fs::path p;
+            p /= File::getExeDirectory().u8string();
+#if defined __APPLE__
+            // p /= "../Resources/save/";
+            p /= "save/";
+#else
+            p /= "save/";
+#endif
+            return p;
+        }
     };
 
 }

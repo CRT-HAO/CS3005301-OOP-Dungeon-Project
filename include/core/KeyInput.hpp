@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 19:36:38
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 01:18:32
+ *  Update Date: 2023/06/12 16:26:42
  *  Description: Key Input Class
  */
 
@@ -65,6 +65,16 @@ namespace Dungeon
         inline bool isAttack() const
         {
             return this->keys.at(sf::Keyboard::Key::J);
+        }
+
+        inline bool isLoadFile() const
+        {
+            return this->keys.at(sf::Keyboard::Key::O);
+        }
+
+        inline bool isSaveFile() const
+        {
+            return this->keys.at(sf::Keyboard::Key::P);
         }
 
     public:

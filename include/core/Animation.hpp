@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/07 02:14:09
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 02:57:08
+ *  Update Date: 2023/06/12 17:09:17
  *  Description: Animation Class
  */
 
@@ -30,25 +30,24 @@ namespace Dungeon
         sf::IntRect endRect;
 
         Animation(sf::Sprite &sprite, sf::Texture &texture_sheet,
-                  float animation_timer,
-                  int start_frame_x, int start_frame_y, int frames_x, int frames_y, int width, int height)
+                  float animation_timer, int start_frame_x, int start_frame_y,
+                  int frames_x, int frames_y, int width, int height)
             : sprite(sprite), textureSheet(texture_sheet),
               animationTimer(animation_timer), timer(0.f), done(false),
               width(width), height(height)
         {
-            this->startRect = sf::IntRect(start_frame_x * width, start_frame_y * height, width, height);
+            this->startRect = sf::IntRect(
+                start_frame_x * width, start_frame_y * height, width, height);
             this->currentRect = this->startRect;
-            this->endRect = sf::IntRect(frames_x * width, frames_y * height, width, height);
+            this->endRect =
+                sf::IntRect(frames_x * width, frames_y * height, width, height);
 
             this->sprite.setTexture(this->textureSheet, true);
             this->sprite.setTextureRect(this->startRect);
         }
 
         // Accessor
-        const bool &isDone() const
-        {
-            return this->done;
-        }
+        const bool &isDone() const { return this->done; }
 
         // Functions
         const bool &play(sf::Time &dt)
@@ -62,7 +61,8 @@ namespace Dungeon
                 this->timer = 0.f;
 
                 // Animate
-                if ( this->currentRect != this->endRect )
+                // if ( this->currentRect != this->endRect )
+                if ( this->currentRect.left < this->endRect.left )
                 {
                     this->currentRect.left += this->width;
                 }
@@ -92,7 +92,8 @@ namespace Dungeon
                 this->timer = 0.f;
 
                 // Animate
-                if ( this->currentRect != this->endRect )
+                // if ( this->currentRect != this->endRect )
+                if ( this->currentRect.left < this->endRect.left )
                 {
                     this->currentRect.left += this->width;
                 }

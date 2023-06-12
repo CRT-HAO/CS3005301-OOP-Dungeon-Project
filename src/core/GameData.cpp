@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/12 15:06:42
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 15:50:15
+ *  Update Date: 2023/06/12 16:30:06
  *  Description: Game Data Class
  */
 
@@ -27,6 +27,15 @@ bool GameData::loadFile(std::string filename)
 
     this->j = Json::parse(ifs);
     if ( !this->j.is_array() )
+        return false;
+
+    this->valid = true;
+    return true;
+}
+
+bool GameData::loadJson(const Json &json)
+{
+    if ( !json.is_array() )
         return false;
 
     this->valid = true;

@@ -3,11 +3,12 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:36:02
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 16:23:38
+ *  Update Date: 2023/06/12 16:54:58
  *  Description: Game Class
  */
 
 #include "core/Game.hpp"
+#include "core/GameSave.hpp"
 #include "core/WorldGenerator.hpp"
 
 #include <iostream>
@@ -32,6 +33,39 @@ Game *Game::getInstance()
         instance = new Game();
 
     return instance;
+}
+
+void Game::saveFile()
+{
+    std::cout << "Input save file name: ";
+    std::string filename;
+    std::cin >> filename;
+    filename += ".json";
+    GameSave save;
+    save.fromInstance(this, this->gameData, this->level);
+    if ( save.saveFile(filename) )
+        std::cout << "Save file success!";
+    else
+        std::cout << "Save file failed!";
+}
+
+void Game::loadFile()
+{
+    std::cout << "Input load save file name: ";
+    std::string filename;
+    std::cin >> filename;
+    filename += ".json";
+    GameSave save;
+    if ( !save.loadFile(filename) )
+    {
+        std::cout << "Load save file failed!";
+        return;
+    }
+
+    this->gameData.loadJson(save.getGameDataJson());
+    this->fromJson(save.getGameJson());
+    this->level = save.getLevel();
+    std::cout << "Load save file success!";
 }
 
 void Game::init()
@@ -135,6 +169,12 @@ void Game::update()
 
     // Display
     this->window.display();
+
+    if ( keyInput.isSaveFile() )
+        this->saveFile();
+
+    if ( keyInput.isLoadFile() )
+        this->loadFile();
 
     if ( this->world->getCreatureManager().getCreautresNum() == 0 &&
          this->level < this->gameData.getLevelNum() - 1 )

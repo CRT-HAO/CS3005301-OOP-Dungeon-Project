@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/12 15:03:01
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 15:41:28
+ *  Update Date: 2023/06/12 16:33:29
  *  Description: Game Data Class
  */
 
@@ -26,7 +26,9 @@ namespace Dungeon
         GameData();
 
     public:
+        inline const Json &getJson() const { return this->j; };
         bool loadFile(std::string filename = "game.json");
+        bool loadJson(const Json &json);
 
     public:
         size_t getLevelNum() const;
