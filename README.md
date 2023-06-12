@@ -1,18 +1,27 @@
 # Dungeon Project
 
-## Week 12
+## Final
 
 ### Run
 
 ```
-./submit/Week12.exe
+./exe/Dungeon.exe
 ```
 
 ### What have we done?
 
-- Item Interface in `./src/item/IItem.hpp`
-- Trigger in `./src/item/Trigger.hpp`
-- Switch in `./src/item/Switch.hpp`
-- Modified item save method to vector of item interface pointers in `./src/main.cpp`
+- Basic operation and game logic.
+- There are at least two types of enemies with different behavior patterns.
+- There are at least two or more props that provide different effects.
+- There are at least three or more different playable levels
+- Can save and read files.
 
-> Items global variable at main.cpp line 72
+### Keymap
+
+| Key     | Function       |
+| ------- | -------------- |
+| W/A/S/D | Move Player    |
+| O       | Load Save File |
+| P       | Save File      |
+| J       | Attack         |
+| Enter   | Open Door      |
