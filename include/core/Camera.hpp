@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:06:30
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/09 22:36:44
+ *  Update Date: 2023/06/12 06:46:20
  *  Description: Camera Class
  */
 
@@ -33,11 +33,14 @@ namespace Dungeon
         void setPos(const sf::Vector2f &pos);
         void focus(Player *player);
 
+        void updateView(sf::View &view);
+
     public:
         void init() override;
         virtual void logic(KeyInput *keyInput, sf::Time &dt) override;
         virtual void render(sf::RenderWindow &window) override;
-        void updateView(sf::View &view);
+        virtual Json toJson() const override;
+        virtual void fromJson(const Json &json) override;
     };
 
 }

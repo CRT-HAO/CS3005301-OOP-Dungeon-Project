@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/09 22:35:07
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/11 16:49:27
+ *  Update Date: 2023/06/12 06:22:27
  *  Description: AI Creature Engine Class
  */
 
@@ -64,4 +64,16 @@ void AICreatureEngine::updateAttack(sf::Time &dt, float attackHP)
     }
     else
         this->lastAttack += dt;
+}
+
+Json AICreatureEngine::toJson() const
+{
+    Json j;
+    j["speed"] = this->speed;
+    return j;
+}
+
+void AICreatureEngine::fromJson(const Json &json)
+{
+    this->speed = json["speed"].get<float>();
 }

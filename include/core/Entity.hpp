@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 23:00:06
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/11 15:24:10
+ *  Update Date: 2023/06/12 07:08:43
  *  Description: Entity Class
  */
 
@@ -64,5 +64,9 @@ namespace Dungeon
         }
 
         bool intersects(const sf::FloatRect &frect);
+
+    public:
+        virtual Json toJson() const override;
+        virtual void fromJson(const Json &json) override;
     };
 }

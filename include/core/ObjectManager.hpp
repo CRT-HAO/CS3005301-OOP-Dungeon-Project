@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/30 10:21:55
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 00:21:13
+ *  Update Date: 2023/06/12 06:51:24
  *  Description: Object Manager
  */
 
@@ -33,6 +33,8 @@ namespace Dungeon
         virtual void init() override;
         virtual void logic(KeyInput *keyInput, sf::Time &dt) override;
         virtual void render(sf::RenderWindow &window) override;
+        virtual Json toJson() const override;
+        virtual void fromJson(const Json &json) override;
     };
 
 }

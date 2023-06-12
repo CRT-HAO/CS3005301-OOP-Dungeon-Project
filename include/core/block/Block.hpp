@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:15:11
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 03:18:10
+ *  Update Date: 2023/06/12 07:03:45
  *  Description: Block Class
  */
 
@@ -24,8 +24,14 @@ namespace Dungeon
         size_t size{GRID_SIZE};
 
     public:
-        inline const sf::Vector2f &getPos() const { return this->sprite.getPosition(); }
-        inline void setPos(const sf::Vector2f &pos) { this->sprite.setPosition(pos); }
+        inline const sf::Vector2f &getPos() const
+        {
+            return this->sprite.getPosition();
+        }
+        inline void setPos(const sf::Vector2f &pos)
+        {
+            this->sprite.setPosition(pos);
+        }
         inline bool isSolid() const { return this->solid; }
 
         inline void setSolid(bool solid)
@@ -43,5 +49,9 @@ namespace Dungeon
 
         inline size_t getSize() const { return this->size; }
         inline void setSize(size_t size) { this->size = size; };
+
+    public:
+        virtual Json toJson() const override;
+        virtual void fromJson(const Json &json) override;
     };
 }

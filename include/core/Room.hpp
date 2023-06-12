@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:11:06
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 19:49:05
+ *  Update Date: 2023/06/12 07:30:56
  *  Description: Room Class
  */
 
@@ -36,9 +36,13 @@ namespace Dungeon
         ~Room();
 
     public:
-        void autoGen(const sf::Vector2f &pos, size_t width = 10, size_t height = 10);
+        void autoGen(const sf::Vector2f &pos, size_t width = 10,
+                     size_t height = 10);
 
         void addBlock(Block *block);
+
+    public:
+        virtual void fromJson(const Json &json) override;
     };
 
 }

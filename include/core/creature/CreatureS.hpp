@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/09 23:07:16
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 02:20:56
+ *  Update Date: 2023/06/12 06:23:11
  *  Description: Creature S Class
  */
 
@@ -28,6 +28,7 @@ namespace Dungeon
     public:
         virtual void init() override;
         virtual void logic(KeyInput *keyInput, sf::Time &dt) override;
+        virtual Json toJson() const override;
     };
 
 }

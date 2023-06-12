@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:14:48
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 01:06:49
+ *  Update Date: 2023/06/12 07:16:56
  *  Description: Game Class
  */
 
@@ -36,8 +36,8 @@ namespace Dungeon
         KeyInput keyInput;
 
         ObjectManager objectManager;
-        World world;
-        Player player{&world};
+        World world{nullptr};
+        Player player{nullptr};
         Camera camera;
 
     private:
@@ -52,6 +52,10 @@ namespace Dungeon
     public:
         void update();
         void run();
+
+    public:
+        Json toJson() const;
+        void fromJson(const Json &json);
     };
 
 }

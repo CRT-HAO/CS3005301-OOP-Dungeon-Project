@@ -3,15 +3,17 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 02:58:48
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/11 15:37:18
+ *  Update Date: 2023/06/12 08:12:30
  *  Description: World Class
  */
 
 #include "core/World.hpp"
+#include "core/Room.hpp"
+#include "core/creature/CreatureS.hpp"
 
 using namespace Dungeon;
 
-World::World() {}
+World::World(Player *player) : player(player) {}
 
 void World::clear() { this->rooms.clear(); }
 
@@ -21,7 +23,7 @@ void World::addRoom(Room *room) { this->rooms.push_back(room); }
 
 void World::addCreature(Creature *creature)
 {
-    this->creatorManager.addCreature(creature);
+    this->creatureManager.addCreature(creature);
 }
 
 bool World::intersects(const sf::FloatRect &frect)
@@ -39,7 +41,7 @@ void World::init()
     for ( Room *r : this->rooms )
         r->init();
 
-    this->creatorManager.init();
+    this->creatureManager.init();
 }
 
 void World::logic(KeyInput *keyInput, sf::Time &dt)
@@ -47,7 +49,7 @@ void World::logic(KeyInput *keyInput, sf::Time &dt)
     for ( Room *r : this->rooms )
         r->logic(keyInput, dt);
 
-    this->creatorManager.logic(keyInput, dt);
+    this->creatureManager.logic(keyInput, dt);
 }
 
 void World::render(sf::RenderWindow &window)
@@ -55,5 +57,37 @@ void World::render(sf::RenderWindow &window)
     for ( Room *r : this->rooms )
         r->render(window);
 
-    this->creatorManager.render(window);
+    this->creatureManager.render(window);
+}
+
+Json World::toJson() const
+{
+    Json j;
+    j["rooms"] = Json::array();
+    for ( const auto &r : this->rooms )
+        j["rooms"].push_back(r->toJson());
+    j["creature_manager"] = this->creatureManager.toJson();
+    return j;
+}
+
+void World::fromJson(const Json &json)
+{
+    this->rooms.clear();
+    for ( const auto &r : json["rooms"] )
+    {
+        Room *room = new Room(this, this->player);
+        room->fromJson(r);
+        this->rooms.push_back(room);
+    }
+
+    this->creatureManager.clear();
+    for ( const auto &c : json["creature_manager"]["entities"] )
+    {
+        if ( c["type"].get<std::string>() == "CreatureS" )
+        {
+            CreatureS *creature = new CreatureS(this, this->player);
+            creature->fromJson(c);
+            this->creatureManager.addCreature(creature);
+        }
+    }
 }

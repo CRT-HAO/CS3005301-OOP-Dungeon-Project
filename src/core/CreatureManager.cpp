@@ -1,5 +1,6 @@
 #include "core/CreatureManager.hpp"
 #include "core/EntityManager.hpp"
+#include "core/creature/CreatureS.hpp"
 #include <unordered_set>
 
 using namespace Dungeon;
@@ -44,3 +45,7 @@ void CreatureManager::render(sf::RenderWindow &window)
 {
     return EntityManager::render(window);
 }
+
+Json CreatureManager::toJson() const { return EntityManager::toJson(); }
+
+void CreatureManager::fromJson(const Json &json) {}

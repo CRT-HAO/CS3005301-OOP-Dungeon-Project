@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/09 22:30:00
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/11 16:47:33
+ *  Update Date: 2023/06/12 06:21:47
  *  Description: AI Creature Engine Class
  */
 
@@ -39,6 +39,10 @@ namespace Dungeon
         void updatePosition(sf::Time &dt);
 
         void updateAttack(sf::Time &dt, float attackHP);
+
+    public:
+        Json toJson() const;
+        void fromJson(const Json &json);
     };
 
 }

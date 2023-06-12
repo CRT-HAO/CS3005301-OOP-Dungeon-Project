@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/12 00:41:38
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 03:26:48
+ *  Update Date: 2023/06/12 07:12:48
  *  Description: Weapon Class
  */
 
@@ -125,3 +125,17 @@ void Weapon::logic(KeyInput *keyInput, sf::Time &dt)
 }
 
 void Weapon::render(sf::RenderWindow &window) { window.draw(this->sprite); }
+
+Json Weapon::toJson() const
+{
+    Json j;
+    j["damage"] = this->damage;
+    j["attackInterval"] = this->attackInterval;
+    return j;
+}
+
+void Weapon::fromJson(const Json &json)
+{
+    this->damage = json["damage"].get<float>();
+    this->attackInterval = json["attackInterval"].get<float>();
+}

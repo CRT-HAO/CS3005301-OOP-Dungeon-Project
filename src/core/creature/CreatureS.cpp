@@ -3,13 +3,14 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/09 23:12:10
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 02:34:25
+ *  Update Date: 2023/06/12 05:22:30
  *  Description: Creature S Class
  */
 
 #include "core/creature/CreatureS.hpp"
 #include "Config.hpp"
 #include "core/File.hpp"
+#include "core/creature/Creature.hpp"
 
 using namespace Dungeon;
 
@@ -40,4 +41,12 @@ void CreatureS::logic(KeyInput *keyInput, sf::Time &dt)
         this->animationManager.play("Flying_Left", dt);
 
     Creature::logic(keyInput, dt);
+}
+
+Json CreatureS::toJson() const
+{
+    Json j;
+    j["type"] = "CreatureS";
+    j.update(Creature::toJson());
+    return j;
 }

@@ -3,13 +3,14 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:43:07
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 02:48:58
+ *  Update Date: 2023/06/12 08:24:03
  *  Description: Player Class
  */
 
 #include "core/Player.hpp"
 
 #include "SFML/System/Vector2.hpp"
+#include "core/Entity.hpp"
 #include "core/File.hpp"
 
 #include <cmath>
@@ -28,6 +29,13 @@ Player::Player(World *world, const sf::Vector2f &pos) : world(world)
 }
 
 Player::~Player() { delete this->weapon; }
+
+void Player::setWorld(World *world)
+{
+    this->world = world;
+    if ( this->weapon != nullptr )
+        this->weapon->setWorld(world);
+}
 
 bool Player::checkCollision(const sf::Vector2f &newPos)
 {
@@ -182,4 +190,30 @@ void Player::render(sf::RenderWindow &window)
     //     sf::Vector2f(this->getHitBox().width, this->getHitBox().height));
     // rectangle.setFillColor(sf::Color::Color::Yellow);
     // window.draw(rectangle);
+}
+
+Json Player::toJson() const
+{
+    Json j;
+    j["hp"] = this->hp;
+    j["max_hp"] = this->maxHP;
+    j["size"] = this->size;
+    j["dirX"] = static_cast<int>(this->dirX);
+    j["dir"] = static_cast<int>(this->dir);
+    if ( this->weapon )
+        j["weapon"] = this->weapon->toJson();
+    j.update(Entity::toJson());
+    return j;
+}
+
+void Player::fromJson(const Json &json)
+{
+    this->hp = json["hp"].get<float>();
+    this->maxHP = json["max_hp"].get<float>();
+    this->size = json["size"].get<size_t>();
+    this->dirX = static_cast<PlayerDirection>(json["dirX"].get<int>());
+    this->dir = static_cast<PlayerDirection>(json["dir"].get<int>());
+    if ( json.contains("weapon") )
+        this->weapon->fromJson(json["weapon"]);
+    Entity::fromJson(json);
 }

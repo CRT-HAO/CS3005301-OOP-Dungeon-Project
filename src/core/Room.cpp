@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:33:29
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/07 19:49:01
+ *  Update Date: 2023/06/12 08:10:08
  *  Description: Room Class
  */
 
@@ -13,11 +13,14 @@
 #include "core/block/Ground.hpp"
 #include "core/block/Torch.hpp"
 #include "core/block/Wall.hpp"
+#include <iostream>
 
 using namespace Dungeon;
 
 Room::Room(World *world, Player *player)
-    : EntityManager(), world(world), player(player) {}
+    : EntityManager(), world(world), player(player)
+{
+}
 
 Room::~Room() {}
 
@@ -47,14 +50,49 @@ void Room::autoGen(const sf::Vector2f &pos, size_t width, size_t height)
 
     // 火把
     this->addBlock(new Torch(pos + sf::Vector2f(1 * GRID_SIZE, 1 * GRID_SIZE)));
-    this->addBlock(new Torch(pos + sf::Vector2f((width - 2) * GRID_SIZE, 1 * GRID_SIZE)));
-    this->addBlock(new Torch(pos + sf::Vector2f(1 * GRID_SIZE, (height - 2) * GRID_SIZE)));
-    this->addBlock(new Torch(pos + sf::Vector2f((width - 2) * GRID_SIZE, (height - 2) * GRID_SIZE)));
+    this->addBlock(
+        new Torch(pos + sf::Vector2f((width - 2) * GRID_SIZE, 1 * GRID_SIZE)));
+    this->addBlock(
+        new Torch(pos + sf::Vector2f(1 * GRID_SIZE, (height - 2) * GRID_SIZE)));
+    this->addBlock(new Torch(
+        pos + sf::Vector2f((width - 2) * GRID_SIZE, (height - 2) * GRID_SIZE)));
 
-    this->addBlock(new Door(this->player, pos + sf::Vector2f(8 * GRID_SIZE, 7 * GRID_SIZE)));
+    this->addBlock(new Door(this->player,
+                            pos + sf::Vector2f(8 * GRID_SIZE, 7 * GRID_SIZE)));
 }
 
-void Room::addBlock(Block *block)
+void Room::addBlock(Block *block) { this->addEntity(block); }
+
+void Room::fromJson(const Json &json)
 {
-    this->addEntity(block);
+    this->clear();
+    std::cout << "Rooms:" << std::endl;
+    std::cout << json.dump() << std::endl;
+    for ( const auto &b : json["entities"] )
+    {
+        if ( b["type"].get<std::string>() == "Ground" )
+        {
+            Ground *ground = new Ground();
+            ground->fromJson(b);
+            this->addBlock(ground);
+        }
+        else if ( b["type"].get<std::string>() == "Wall" )
+        {
+            Wall *wall = new Wall();
+            wall->fromJson(b);
+            this->addBlock(wall);
+        }
+        else if ( b["type"].get<std::string>() == "Torch" )
+        {
+            Torch *torch = new Torch();
+            torch->fromJson(b);
+            this->addBlock(torch);
+        }
+        else if ( b["type"].get<std::string>() == "Door" )
+        {
+            Door *door = new Door(this->player);
+            door->fromJson(b);
+            this->addBlock(door);
+        }
+    }
 }

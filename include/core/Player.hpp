@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:40:17
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 02:49:28
+ *  Update Date: 2023/06/12 08:22:12
  *  Description: Player Class
  */
 
@@ -52,6 +52,8 @@ namespace Dungeon
         ~Player();
 
     public:
+        void setWorld(World *world);
+
         inline float getHP() const { return this->hp; }
 
         inline void setHP(float hp) { this->hp = hp; }
@@ -82,5 +84,7 @@ namespace Dungeon
         virtual void init() override;
         virtual void logic(KeyInput *keyInput, sf::Time &dt) override;
         virtual void render(sf::RenderWindow &window) override;
+        virtual Json toJson() const override;
+        virtual void fromJson(const Json &json) override;
     };
 }

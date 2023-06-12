@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:28:39
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 00:45:31
+ *  Update Date: 2023/06/12 06:59:51
  *  Description: World Class
  */
 
@@ -22,17 +22,21 @@ namespace Dungeon
     class World : public Object
     {
     private:
+        Player *player;
         std::vector<Room *> rooms;
-        CreatureManager creatorManager;
+        CreatureManager creatureManager;
 
     public:
-        World();
+        World(Player *player);
 
     public:
         inline CreatureManager &getCreatureManager()
         {
-            return this->creatorManager;
+            return this->creatureManager;
         }
+
+    public:
+        inline void setPlayer(Player *player) { this->player = player; }
 
     public:
         const std::vector<Room *> &getRooms();
@@ -45,6 +49,8 @@ namespace Dungeon
         virtual void init() override;
         virtual void logic(KeyInput *keyInput, sf::Time &dt) override;
         virtual void render(sf::RenderWindow &window) override;
+        virtual Json toJson() const override;
+        virtual void fromJson(const Json &json) override;
     };
 
 }
