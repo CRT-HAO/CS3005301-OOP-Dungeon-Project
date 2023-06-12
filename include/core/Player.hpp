@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:40:17
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 08:22:12
+ *  Update Date: 2023/06/12 09:07:15
  *  Description: Player Class
  */
 
@@ -57,6 +57,8 @@ namespace Dungeon
         inline float getHP() const { return this->hp; }
 
         inline void setHP(float hp) { this->hp = hp; }
+
+        inline float getMaxHP() const { return this->maxHP; }
 
         inline void damage(float damage)
         {

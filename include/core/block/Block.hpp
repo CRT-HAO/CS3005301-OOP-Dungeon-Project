@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:15:11
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 07:03:45
+ *  Update Date: 2023/06/12 10:26:49
  *  Description: Block Class
  */
 
@@ -22,6 +22,7 @@ namespace Dungeon
     private:
         bool solid{false};
         size_t size{GRID_SIZE};
+        bool visible{true};
 
     public:
         inline const sf::Vector2f &getPos() const
@@ -48,7 +49,12 @@ namespace Dungeon
         }
 
         inline size_t getSize() const { return this->size; }
+
         inline void setSize(size_t size) { this->size = size; };
+
+        inline bool isVisible() const { return this->visible; }
+
+        inline void setVisible(bool visible) { this->visible = visible; }
 
     public:
         virtual Json toJson() const override;

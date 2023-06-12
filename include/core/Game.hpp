@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:14:48
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 07:16:56
+ *  Update Date: 2023/06/12 09:08:57
  *  Description: Game Class
  */
 
@@ -15,6 +15,7 @@
 #include "Player.hpp"
 #include "Room.hpp"
 #include "World.hpp"
+#include "core/GUIManager.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -36,6 +37,7 @@ namespace Dungeon
         KeyInput keyInput;
 
         ObjectManager objectManager;
+        GUIManager guiManager;
         World world{nullptr};
         Player player{nullptr};
         Camera camera;

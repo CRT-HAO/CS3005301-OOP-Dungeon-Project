@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/05/29 23:33:29
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 08:10:08
+ *  Update Date: 2023/06/12 10:19:42
  *  Description: Room Class
  */
 
@@ -11,8 +11,10 @@
 #include "Config.hpp"
 #include "core/block/Door.hpp"
 #include "core/block/Ground.hpp"
+#include "core/block/Heal.hpp"
 #include "core/block/Torch.hpp"
 #include "core/block/Wall.hpp"
+
 #include <iostream>
 
 using namespace Dungeon;
@@ -93,6 +95,12 @@ void Room::fromJson(const Json &json)
             Door *door = new Door(this->player);
             door->fromJson(b);
             this->addBlock(door);
+        }
+        else if ( b["type"].get<std::string>() == "Heal" )
+        {
+            Heal *heal = new Heal(this->player);
+            heal->fromJson(b);
+            this->addBlock(heal);
         }
     }
 }
