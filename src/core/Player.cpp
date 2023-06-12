@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 00:43:07
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 16:09:47
+ *  Update Date: 2023/06/12 17:27:25
  *  Description: Player Class
  */
 
@@ -177,7 +177,7 @@ void Player::logic(KeyInput *keyInput, sf::Time &dt)
 
     this->weapon->logic(keyInput, dt);
 
-    std::cout << "HP=" << this->getHP() << std::endl;
+    // std::cout << "HP=" << this->getHP() << std::endl;
 }
 
 void Player::render(sf::RenderWindow &window)

@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:28:39
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 14:52:30
+ *  Update Date: 2023/06/12 17:32:35
  *  Description: World Generator Class
  */
 
@@ -14,6 +14,7 @@
 #include "core/block/Heal.hpp"
 #include "core/block/Torch.hpp"
 #include "core/block/Wall.hpp"
+#include "core/creature/CreatureB.hpp"
 #include "core/creature/CreatureS.hpp"
 
 #include <algorithm>
@@ -136,6 +137,14 @@ void WorldGenerator::genRoomsTool(World *world, Player *player,
     for ( size_t i = 0; i < 3; ++i )
     {
         Creature *creature = new CreatureS(world, player);
+        creature->setPos(pos + sf::Vector2f(5 * GRID_SIZE, 5 * GRID_SIZE));
+        world->addCreature(creature);
+    }
+
+    // 產生怪物
+    for ( size_t i = 0; i < 3; ++i )
+    {
+        Creature *creature = new CreatureB(world, player);
         creature->setPos(pos + sf::Vector2f(5 * GRID_SIZE, 5 * GRID_SIZE));
         world->addCreature(creature);
     }

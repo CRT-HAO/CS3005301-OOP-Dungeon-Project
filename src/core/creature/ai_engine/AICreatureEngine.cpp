@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/09 22:35:07
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 06:22:27
+ *  Update Date: 2023/06/12 17:24:20
  *  Description: AI Creature Engine Class
  */
 
@@ -21,8 +21,9 @@
 using namespace Dungeon;
 
 AICreatureEngine::AICreatureEngine(World *world, Entity *creature,
-                                   Player *follow, float speed)
-    : world(world), creature(creature), follow(follow), speed(speed)
+                                   Player *follow, float speed, float shake)
+    : world(world), creature(creature), follow(follow), speed(speed),
+      shake(shake)
 {
     this->randomEngine.seed(rand());
 }

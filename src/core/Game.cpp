@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/05 23:36:02
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 16:54:58
+ *  Update Date: 2023/06/12 17:44:12
  *  Description: Game Class
  */
 
@@ -89,7 +89,7 @@ void Game::init()
     objectManager.clear();
 
     // // 產生預設世界
-    // WorldGenerator::genDefaultWorld(&this->world, &this->player, 15);
+    // WorldGenerator::genDefaultWorld(this->world, this->player, 15);
 
     this->gameData.loadFile();
 

@@ -3,12 +3,13 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/06 02:58:48
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 16:00:59
+ *  Update Date: 2023/06/12 17:37:55
  *  Description: World Class
  */
 
 #include "core/World.hpp"
 #include "core/Room.hpp"
+#include "core/creature/CreatureB.hpp"
 #include "core/creature/CreatureS.hpp"
 
 using namespace Dungeon;
@@ -90,6 +91,12 @@ void World::fromJson(const Json &json)
         if ( c["type"].get<std::string>() == "CreatureS" )
         {
             CreatureS *creature = new CreatureS(this, this->player);
+            creature->fromJson(c);
+            this->creatureManager.addCreature(creature);
+        }
+        else if ( c["type"].get<std::string>() == "CreatureB" )
+        {
+            CreatureB *creature = new CreatureB(this, this->player);
             creature->fromJson(c);
             this->creatureManager.addCreature(creature);
         }

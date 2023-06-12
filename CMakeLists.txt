@@ -36,6 +36,7 @@ set(SRC_LIST
     ${PROJECT_SOURCE_DIR}/src/core/CreatureManager.cpp
     ${PROJECT_SOURCE_DIR}/src/core/creature/Creature.cpp
     ${PROJECT_SOURCE_DIR}/src/core/creature/CreatureS.cpp
+    ${PROJECT_SOURCE_DIR}/src/core/creature/CreatureB.cpp
     ${PROJECT_SOURCE_DIR}/src/core/creature/ai_engine/AICreatureEngine.cpp
     ${PROJECT_SOURCE_DIR}/src/core/Weapon.cpp
     ${PROJECT_SOURCE_DIR}/src/core/WorldGenerator.cpp
@@ -86,10 +87,16 @@ endif()
 if(APPLE)
     # set(RES_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/../Resources/resources")
     set(RES_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/resources")
+    set(DATA_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/data")
 else()
     set(RES_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/resources")
+    set(DATA_PATH "$<TARGET_FILE_DIR:${APP_NAME}>/data")
 endif()
 
 # Copy resources to resources path
 add_custom_command(TARGET ${APP_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/resources/" "${RES_PATH}")
+
+# Copy data to data path
+add_custom_command(TARGET ${APP_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/data/" "${DATA_PATH}")

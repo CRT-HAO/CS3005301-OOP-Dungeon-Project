@@ -3,7 +3,7 @@
  *  Author: 張皓鈞(HAO) m831718@gmail.com
  *  Create Date: 2023/06/09 20:49:35
  *  Editor: 張皓鈞(HAO) m831718@gmail.com
- *  Update Date: 2023/06/12 06:17:54
+ *  Update Date: 2023/06/12 17:25:39
  *  Description: Creature Class
  */
 
@@ -19,10 +19,8 @@ namespace Dungeon
 
     class Creature : public Entity
     {
-    private:
-        AICreatureEngine *aiEngine;
-
     protected:
+        AICreatureEngine *aiEngine;
         float hp;
         bool underAttack{false};
         sf::Time damageTime;
